@@ -1,6 +1,8 @@
 # watch_next
 
-A new Flutter project.
+This is a new Flutter Project for the discipline of Interaction Human Computer at UFRGS - Federal University of Rio Grande do Sul 
+
+- This project consists in an application that creates, manage and sugests movies, series and animes watch lists. 
 
 ## Getting Started
 
