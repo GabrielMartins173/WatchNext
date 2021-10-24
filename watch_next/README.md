@@ -1,4 +1,4 @@
-# watch_next
+# WatchNext
 
 This is a new Flutter Project for the discipline of Interaction Human Computer at UFRGS - Federal University of Rio Grande do Sul 
 
