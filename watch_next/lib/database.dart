@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:watch_next/user.dart';
 
-import 'item.dart';
+import 'Screens/Home/components/item.dart';
 
 class WatchNextDatabase {
 

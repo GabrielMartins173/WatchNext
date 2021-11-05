@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WatchNext',
-      theme: ThemeData(
+      theme: ThemeData.dark(
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primaryColor: kPrimaryColor,
-        scaffoldBackgroundColor: Colors.white,
+        //primaryColor: kPrimaryColor,
+        //scaffoldBackgroundColor: Colors.white,
       ),
       home: WelcomeScreen(),
     );

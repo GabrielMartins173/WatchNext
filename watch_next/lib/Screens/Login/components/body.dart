@@ -9,7 +9,7 @@ import 'package:watch_next/components/rounded_button.dart';
 import 'package:watch_next/components/rounded_input_field.dart';
 import 'package:watch_next/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:watch_next/main.dart';
+
 
 class Body extends StatelessWidget {
   const Body({
