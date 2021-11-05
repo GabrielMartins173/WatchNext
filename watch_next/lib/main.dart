@@ -72,7 +72,9 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _selectedIndex = index;
     });
-    pageController.jumpToPage(index);
+    pageController.animateToPage(index,
+        duration: Duration(milliseconds: 1000),
+        curve: Curves.fastLinearToSlowEaseIn);
   }
 
   @override
