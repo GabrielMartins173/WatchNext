@@ -57,7 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
   PageController pageController = PageController();
 
   void _incrementCounter() async {
-    WatchNextDatabase.addItem(Item(Random().nextInt(100) + 5, "test", "test"));
+    WatchNextDatabase.addItem(Item(_counter+4, "test", "test"));
+
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -79,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    //WatchNextDatabase.recreateDB();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -139,7 +141,24 @@ class _MyHomePageState extends State<MyHomePage> {
     var containerList = itemList
         .map((item) => Container(
               padding: const EdgeInsets.all(8),
-              child: Text(item.name),
+              child: Column(children: [
+                Text(item.name),
+                Text(item.description),
+                const Expanded(
+                    child: FittedBox(
+                  fit: BoxFit.contain, // otherwise the logo will be tiny
+                  child: FlutterLogo(),
+                )),
+                FloatingActionButton(
+                    onPressed: () {
+                      WatchNextDatabase.deleteItem(item.id);
+                      setState(() {
+                        _counter++;
+                      });
+                    },
+                    child: const Icon(Icons.navigation),
+                    backgroundColor: Colors.green)
+              ]),
               color: Colors.teal[600],
             ))
         .toList();

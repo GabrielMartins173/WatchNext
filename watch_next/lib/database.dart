@@ -1,32 +1,58 @@
 import 'package:sqflite/sqflite.dart';
+import 'package:watch_next/user.dart';
 
 import 'item.dart';
 
 class WatchNextDatabase {
 
-  static Future<void> createDB(Database db) async {
-    //await db.execute("""DROP TABLE ITEM""");
+  static Future<void> deleteDB() async {
+    var db = await openDB();
+    await db.execute("""DROP TABLE IF EXISTS ITEM""");
+    await db.execute("""DROP TABLE IF EXISTS USER""");
+    db.close();
+  }
 
+  static Future<void> createDB(Database db) async {
     await db.execute("""CREATE TABLE ITEM (
         ID NUMERIC PRIMARY KEY,
         NAME VARCHAR2,
         DESCRIPTION VARCHAR2
         );""");
 
-    populate(db);
+    await db.execute("""CREATE TABLE USER (
+        ID NUMERIC PRIMARY KEY,
+        NAME VARCHAR2,
+        PASSWORD VARCHAR2
+        );""");
+
+    populate();
 
   }
 
-  static void populate(Database db) {
-    addItemBatch(Item(1, "Alan", "Saxobeat"), db);
-    addItemBatch(Item(2, "Gabriel", "Midoriya"), db);
-    addItemBatch(Item(3, "Lucas", "Pikachu"), db);
-    addItemBatch(Item(4, "Leo", "Doge"), db);
+  static Future<void> recreateDB() async {
+    await deleteDB();
+    var db = await openDB();
+    await createDB(db);
+    db.close();
+
+  }
+
+  static void populate() {
+    addUser(User(1, "Alan", "Saxobeat"));
+    addUser(User(2, "Gabriel", "Midoriya"));
+    addUser(User(3, "Lucas", "Pikachu"));
+    addUser(User(4, "Leo", "Doge"));
+
+    addItem(Item(1, "John Wick", "brabes"));
+    addItem(Item(2, "Seinfeld", "brabes"));
+    addItem(Item(3, "Naruto", "brabes"));
+    addItem(Item(4, "Takt.op", "brabes"));
 
 }
 
-  static Future<void> addItemBatch(Item item, Database db) async {
-    await db.insert("ITEM", {"ID": item.id, "NAME": item.name, "DESCRIPTION": item.description});
+  static Future<void> addUser(User user) async {
+    var db = await openDB();
+    await db.insert("USER", {"ID": user.id, "NAME": user.name, "PASSWORD": user.password});
 
   }
 
