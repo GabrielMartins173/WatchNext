@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:watch_next/Screens/Welcome/welcome_screen.dart';
-import 'package:watch_next/constants.dart';
 
 void main() {
   runApp(const MyApp());

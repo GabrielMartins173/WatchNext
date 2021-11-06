@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:watch_next/Screens/Login/login_screen.dart';
+import 'package:watch_next/Screens/Login/login_service.dart';
 import 'package:watch_next/Screens/Signup/components/background.dart';
 import 'package:watch_next/Screens/Signup/components/or_divider.dart';
 import 'package:watch_next/Screens/Signup/components/social_icon.dart';
@@ -17,6 +18,9 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String name = "";
+    String email = "";
+    String password = "";
     return Background(
       child: SingleChildScrollView(
         child: Column(
@@ -32,15 +36,19 @@ class Body extends StatelessWidget {
               height: size.height * 0.35,
             ),
             RoundedInputField(
+              hintText: "Your Name",
+              onChanged: (value) {name = value;},
+            ),
+            RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {},
+              onChanged: (value) {email = value;},
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {password = value;},
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () {},
+              press: () {LoginService.signUp(name, email, password);},
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(

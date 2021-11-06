@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'item.dart';
 import 'package:watch_next/database.dart';
-import 'dart:math';
 
 class Body extends StatefulWidget {
   const Body({Key? key, required this.title}) : super(key: key);
@@ -104,7 +103,7 @@ class _MyHomePageState extends State<Body> {
   }
 
   Future<Widget> getCardList() async {
-    List<Item> itemList = (await WatchNextDatabase.getAllItem()).cast<Item>();
+    List<Item> itemList = (await WatchNextDatabase.getAllItems()).cast<Item>();
 
     var containerList = itemList
         .map((item) => Container(
@@ -117,15 +116,14 @@ class _MyHomePageState extends State<Body> {
               fit: BoxFit.contain, // otherwise the logo will be tiny
               child: FlutterLogo(),
             )),
-        FloatingActionButton(
+        ElevatedButton(
             onPressed: () {
               WatchNextDatabase.deleteItem(item.id);
               setState(() {
                 _counter++;
               });
             },
-            child: const Icon(Icons.navigation),
-            backgroundColor: Colors.green)
+            child: const Text("delete"))
       ]),
       color: Colors.teal[600],
     ))

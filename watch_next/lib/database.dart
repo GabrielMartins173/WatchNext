@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:watch_next/user.dart';
 
@@ -22,10 +24,11 @@ class WatchNextDatabase {
     await db.execute("""CREATE TABLE USER (
         ID NUMERIC PRIMARY KEY,
         NAME VARCHAR2,
+        EMAIL VARCHAR2,
         PASSWORD VARCHAR2
         );""");
 
-    populate();
+    await populate();
 
   }
 
@@ -37,23 +40,61 @@ class WatchNextDatabase {
 
   }
 
-  static void populate() {
-    addUser(User(1, "Alan", "Saxobeat"));
-    addUser(User(2, "Gabriel", "Midoriya"));
-    addUser(User(3, "Lucas", "Pikachu"));
-    addUser(User(4, "Leo", "Doge"));
+  static Future<void> populate() async {
+    await addUser(User(1, "Alan", "Saxobeat@usgu.com", "1234"));
+    await addUser(User(2, "Gabriel", "Midoriya@usgu.com", "password"));
+    await addUser(User(3, "Lucas", "Pikachu@usgu.com", "data de aniversario"));
+    await addUser(User(4, "Leo", "Doge@usgu.com", "alice"));
 
-    addItem(Item(1, "John Wick", "brabes"));
-    addItem(Item(2, "Seinfeld", "brabes"));
-    addItem(Item(3, "Naruto", "brabes"));
-    addItem(Item(4, "Takt.op", "brabes"));
+    await addItem(Item(1, "John Wick", "brabes"));
+    await addItem(Item(2, "Seinfeld", "brabes"));
+    await addItem(Item(3, "Naruto", "brabes"));
+    await addItem(Item(4, "Takt.op", "brabes"));
 
 }
 
+  static Future<Database> openDB() async {
+    var db = await openDatabase("database", version: 1, onCreate: (Database db, int version) async {createDB(db);});
+    return db;
+  }
+
+  static Future<int> getNextUserId() async {
+    var db = await openDB();
+    int currentId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(ID) FROM USER'))!;
+    db.close();
+
+    return currentId;
+  }
+
+  static Future<int> getNextItemId() async {
+    var db = await openDB();
+    int currentId = Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(ID) FROM ITEM'))!;
+    db.close();
+
+    return currentId;
+  }
+
   static Future<void> addUser(User user) async {
     var db = await openDB();
-    await db.insert("USER", {"ID": user.id, "NAME": user.name, "PASSWORD": user.password});
+    await db.insert("USER", {"ID": user.id, "NAME": user.name, "EMAIL": user.email, "PASSWORD": user.password});
+    db.close();
+  }
 
+  static Future<User> findUserByEmailAndPassword(String email, String password) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.query("USER", columns: ["ID", "NAME", "EMAIL", "PASSWORD"],
+        where: "EMAIL = ? AND PASSWORD = ?",
+        whereArgs: [email, password]);
+
+    var userList = maps.map((element) {return User.fromJson(element);}).toList();
+    db.close();
+
+    if(userList.isEmpty) {
+      throw FileSystemEntityType.notFound;
+    }
+
+    return userList.first;
   }
 
   static Future<void> addItem(Item item) async {
@@ -62,7 +103,7 @@ class WatchNextDatabase {
 
   }
 
-  static Future<List<Item>> getItem(int id) async {
+  static Future<Item> findItemById(int id) async {
     var db = await openDB();
 
     List<Map> maps = await db.query("ITEM", columns: ["ID", "NAME", "DESCRIPTION"],
@@ -71,10 +112,10 @@ class WatchNextDatabase {
 
     var itemList = maps.map((element) {return Item.fromJson(element);}).toList();
     db.close();
-    return itemList;
+    return itemList.first;
   }
 
-  static Future<List> getAllItem() async {
+  static Future<List> getAllItems() async {
     var db = await openDB();
 
     List<Map> maps = await db.query("ITEM", columns: ["ID", "NAME", "DESCRIPTION"]);
@@ -85,6 +126,17 @@ class WatchNextDatabase {
     return itemList;
   }
 
+  static Future<List> getAllUsers() async {
+    var db = await openDB();
+
+    List<Map> maps = await db.query("USER", columns: ["ID", "NAME", "EMAIL", "PASSWORD"]);
+
+    var userList = maps.map((element) {return User.fromJson(element);}).toList();
+    //userList.forEach((element) {print(element.name);});
+    db.close();
+    return userList;
+  }
+
   static void deleteItem(int id) async {
     var db = await openDB();
 
@@ -93,12 +145,5 @@ class WatchNextDatabase {
         whereArgs: [id]);
 
     db.close();
-
   }
-
-  static Future<Database> openDB() async {
-    var db = await openDatabase("database", version: 1, onCreate: (Database db, int version) async {createDB(db);});
-    return db;
-  }
-
 }
