@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:watch_next/Screens/Login/login_screen.dart';
 import 'package:watch_next/Screens/Login/login_service.dart';
-import 'package:watch_next/Screens/Signup/components/background.dart';
-import 'package:watch_next/Screens/Signup/components/or_divider.dart';
-import 'package:watch_next/Screens/Signup/components/social_icon.dart';
+import 'package:watch_next/Screens/SignUp/components/background.dart';
+import 'package:watch_next/Screens/SignUp/components/or_divider.dart';
+import 'package:watch_next/Screens/SignUp/components/social_icon.dart';
 import 'package:watch_next/components/already_have_an_account_acheck.dart';
 import 'package:watch_next/components/rounded_button.dart';
 import 'package:watch_next/components/rounded_input_field.dart';
@@ -37,18 +37,26 @@ class Body extends StatelessWidget {
             ),
             RoundedInputField(
               hintText: "Your Name",
-              onChanged: (value) {name = value;},
+              onChanged: (value) {
+                name = value;
+              },
             ),
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {email = value;},
+              onChanged: (value) {
+                email = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {password = value;},
+              onChanged: (value) {
+                password = value;
+              },
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () {LoginService.signUp(name, email, password);},
+              press: () {
+                LoginService.signUp(name, email, password);
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(

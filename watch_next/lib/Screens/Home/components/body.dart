@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:watch_next/Screens/Notifications/notification_screen.dart';
+import 'package:watch_next/Screens/Notifications/notification_service.dart';
+import 'package:watch_next/notification.dart';
 import 'item.dart';
 import 'package:watch_next/database.dart';
 
@@ -26,7 +29,7 @@ class _MyHomePageState extends State<Body> {
   PageController pageController = PageController();
 
   void _incrementCounter() async {
-    WatchNextDatabase.addItem(Item(_counter+4, "test", "test"));
+    WatchNextDatabase.addItem(Item(_counter + 4, "test", "test"));
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -75,7 +78,18 @@ class _MyHomePageState extends State<Body> {
                 }
               }),
           Container(color: Colors.red),
-          Container(color: Colors.blue),
+          FutureBuilder<Widget>(
+            future: builderNotifications(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data!;
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else {
+                return const Text("waiting");
+              }
+            },
+          ),
           Container(color: Colors.green),
         ],
       ),
@@ -102,31 +116,40 @@ class _MyHomePageState extends State<Body> {
     );
   }
 
+  Future<Widget> builderNotifications() async {
+    List<NotificationApp> notList =
+        (await NotificationService.getNotifications()).cast<NotificationApp>();
+
+    return NotificationScreen(
+      listNot: notList,
+    ).build(context);
+  }
+
   Future<Widget> getCardList() async {
     List<Item> itemList = (await WatchNextDatabase.getAllItems()).cast<Item>();
 
     var containerList = itemList
         .map((item) => Container(
-      padding: const EdgeInsets.all(8),
-      child: Column(children: [
-        Text(item.name),
-        Text(item.description),
-        const Expanded(
-            child: FittedBox(
-              fit: BoxFit.contain, // otherwise the logo will be tiny
-              child: FlutterLogo(),
-            )),
-        ElevatedButton(
-            onPressed: () {
-              WatchNextDatabase.deleteItem(item.id);
-              setState(() {
-                _counter++;
-              });
-            },
-            child: const Text("delete"))
-      ]),
-      color: Colors.teal[600],
-    ))
+              padding: const EdgeInsets.all(8),
+              child: Column(children: [
+                Text(item.name),
+                Text(item.description),
+                const Expanded(
+                    child: FittedBox(
+                  fit: BoxFit.contain, // otherwise the logo will be tiny
+                  child: FlutterLogo(),
+                )),
+                ElevatedButton(
+                    onPressed: () {
+                      WatchNextDatabase.deleteItem(item.id);
+                      setState(() {
+                        _counter++;
+                      });
+                    },
+                    child: const Text("delete"))
+              ]),
+              color: Colors.teal[600],
+            ))
         .toList();
 
     var grid = GridView.count(
