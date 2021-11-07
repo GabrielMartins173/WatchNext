@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:watch_next/Screens/Login/login_screen.dart';
-import 'package:watch_next/Screens/Signup/signup_screen.dart';
+import 'package:watch_next/Screens/SignUp/signup_screen.dart';
 import 'package:watch_next/Screens/Welcome/components/background.dart';
 import 'package:watch_next/components/rounded_button.dart';
 import 'package:watch_next/constants.dart';
