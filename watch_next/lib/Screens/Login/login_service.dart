@@ -1,5 +1,5 @@
 import 'package:watch_next/database.dart';
-import 'package:watch_next/user.dart';
+import 'package:watch_next/Entities/user.dart';
 
 class LoginService {
 

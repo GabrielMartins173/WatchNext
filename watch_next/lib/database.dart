@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:sqflite/sqflite.dart';
-import 'package:watch_next/user.dart';
+import 'package:watch_next/Entities/user.dart';
 
-import 'Screens/Home/components/item.dart';
-import 'package:watch_next/notification.dart';
+import 'Entities/item.dart';
+import 'package:watch_next/Entities/notification.dart';
 
 class WatchNextDatabase {
   static Future<void> deleteDB() async {
@@ -55,7 +55,7 @@ class WatchNextDatabase {
     await addItem(Item(1, "John Wick", "brabes"));
     await addItem(Item(2, "Seinfeld", "brabes"));
     await addItem(Item(3, "Naruto", "brabes"));
-    await addItem(Item(4, "Takt.op", "brabes"));
+    await addItem(Item(4, "Takt Op", "brabes"));
 
     await addNotification(NotificationApp(1, "Review",
         "Congrats! Your review on the movie John Wick 3 was successfully posted."));

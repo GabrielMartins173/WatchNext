@@ -1,4 +1,4 @@
-import 'package:watch_next/notification.dart';
+import 'package:watch_next/Entities/notification.dart';
 
 import 'package:watch_next/database.dart';
 

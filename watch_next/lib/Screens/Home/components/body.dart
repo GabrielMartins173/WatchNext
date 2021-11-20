@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:watch_next/Screens/Description/description_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_service.dart';
-import 'package:watch_next/notification.dart';
-import 'item.dart';
+import 'package:watch_next/Entities/notification.dart';
+import '../../../Entities/item.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
@@ -29,7 +30,7 @@ class _MyHomePageState extends State<Body> {
   PageController pageController = PageController();
 
   void _incrementCounter() async {
-    WatchNextDatabase.addItem(Item(_counter + 4, "test", "test"));
+    WatchNextDatabase.addItem(Item(_counter + 5, "test", "test"));
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -133,11 +134,20 @@ class _MyHomePageState extends State<Body> {
               padding: const EdgeInsets.all(8),
               child: Column(children: [
                 Text(item.name),
-                Text(item.description),
-                const Expanded(
-                    child: FittedBox(
-                  fit: BoxFit.contain, // otherwise the logo will be tiny
-                  child: FlutterLogo(),
+                Expanded(
+                    child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DescriptionScreen(item: item)),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child:
+                        Image.asset('assets/images/' + item.name + '_logo.png'),
+                  ),
                 )),
                 ElevatedButton(
                     onPressed: () {
