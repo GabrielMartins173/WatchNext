@@ -35,26 +35,56 @@ class Body extends StatelessWidget {
         // the App.build method, and use it to set our appbar title.
         title: Text(title),
       ),
-      body: PageView(
-        children: [
-          getCard(),
-        ],
-      ),
-    );
-  }
-
-  Widget getCard() {
-    return Container(
+      body: SingleChildScrollView(
+          child:
+      Container(
       padding: const EdgeInsets.all(8),
+
       child: Column(children: [
-        Text(item.name),
-        Expanded(
+        ElevatedButton(onPressed: () {}, child: const Text("Add to Watchlist")),
+        ElevatedButton(onPressed: () {}, child: const Text("Write a review")),
+        Container(
           child: Image(
               image: AssetImage('assets/images/' + item.name + '_poster.jpg')),
+          margin: const EdgeInsets.all(20),
+          height: 300,
         ),
-        Text(item.description)
+        Text(item.name, textScaleFactor: 3),
+        Container(
+          child: Column(
+            children: [
+              const Text("Synopsis:",
+                  textScaleFactor: 1.5,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Sans Serif')),
+              Text(item.description)
+            ], crossAxisAlignment: CrossAxisAlignment.start,
+          ),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xFF00309A),
+                  Color(0xFF000E28),
+                ],
+              )),
+          width: double.infinity,
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
+        )
       ]),
-      color: Colors.teal[600],
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.blue,
+              Colors.red,
+            ],
+          )),
+    ),
+    )
+    ,
     );
   }
 }

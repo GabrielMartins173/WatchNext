@@ -52,10 +52,10 @@ class WatchNextDatabase {
     await addUser(User(4, "Leo", "Doge@usgu.com", "alice"));
     await addUser(User(5, "user", "user", "123"));
 
-    await addItem(Item(1, "John Wick", "brabes"));
-    await addItem(Item(2, "Seinfeld", "brabes"));
-    await addItem(Item(3, "Naruto", "brabes"));
-    await addItem(Item(4, "Takt Op", "brabes"));
+    await addItem(Item(1, "John Wick", "John Wick é um lendário assassino de aluguel aposentado, lidando com o luto após perder o grande amor de sua vida. Quando um gângster invade sua casa, mata seu cachorro e rouba seu carro, ele é forçado a voltar à ativa e inicia sua vingança."));
+    await addItem(Item(2, "Seinfeld", "O comediante Jerry Seinfeld, interpretado por ele mesmo, passa pelas mais triviais aventuras cotidianas, como tomar café em uma lanchonete ou alugar filme em uma locadora, ao lado da feminista Elaine (Julia Louis-Dreyfus), do neurótico George (Jason Alexander) e do vizinho folgado Kramer (George Costanza)."));
+    await addItem(Item(3, "Naruto", "Naruto é um jovem órfão habitante da Vila da Folha que sonha se tornar o quinto Hokage, o maior guerreiro e governante da vila. ... Agora Naruto vai contar com a ajuda dos colegas Sakura e Sasuke e do professor dos três, Kakashi Hatake, para perseguir seu sonho e deter os ninjas que planejam fazer mal á sua cidade."));
+    await addItem(Item(4, "Takt Op", "Atraídos para a Terra pela música dos humanos, estranhos monstros conhecidos como D2 agora assolam a Terra e a humanidade. Para impedir seu avanço, a música é proibida em todo o mundo. Entretanto, surgem aqueles dispostos a combater os monstros: Musicarts, garotas que manejam a música como arma, usando as grandes óperas e partituras da história a seu favor para derrotar os D2s, e os Conductors, que as orientam e guiam. Em 2047, um Conductor chamado Takt e uma Musicart chamada Destiny viajam pelos EUA, tentando reviver a música e aniquilar os D2 restantes."));
 
     await addNotification(NotificationApp(1, "Review",
         "Congrats! Your review on the movie John Wick 3 was successfully posted."));
@@ -92,7 +92,6 @@ class WatchNextDatabase {
 
   static Future<void> addUser(User user) async {
     var db = await openDB();
-    print(user);
     await db.insert("USER", {
       "NAME": user.name,
       "EMAIL": user.email,

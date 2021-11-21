@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:watch_next/Entities/user.dart';
 import 'package:watch_next/Screens/Description/description_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_service.dart';
 import 'package:watch_next/Entities/notification.dart';
+import 'package:watch_next/Screens/Watchlist/watchlist_screen.dart';
 import '../../../Entities/item.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key, required this.title}) : super(key: key);
+  const Body({Key? key, required this.title, required this.loggedUser}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -19,6 +21,7 @@ class Body extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final User loggedUser;
 
   @override
   State<Body> createState() => _MyHomePageState();
@@ -62,7 +65,7 @@ class _MyHomePageState extends State<Body> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.title + '    bem vindo ' + widget.loggedUser.name),
       ),
       body: PageView(
         controller: pageController,
@@ -78,7 +81,7 @@ class _MyHomePageState extends State<Body> {
                   return const Text("waiting");
                 }
               }),
-          Container(color: Colors.red),
+          WatchlistScreen(user: widget.loggedUser),
           FutureBuilder<Widget>(
             future: builderNotifications(),
             builder: (context, snapshot) {
