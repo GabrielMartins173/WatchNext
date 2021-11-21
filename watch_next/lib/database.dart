@@ -48,7 +48,7 @@ class WatchNextDatabase {
   static Future<void> populate() async {
     await addUser(User(1, "Alan", "saxobeat@usgu.com", "1234"));
     await addUser(User(2, "Gabriel", "midoriya@usgu.com", "password"));
-    await addUser(User(3, "Lucas", "pikachu@usgu.com", "data de aniversario"));
+    await addUser(User(3, "Lucas", "pikachu@usgu.com", "senha"));
     await addUser(User(4, "Leo", "doge@usgu.com", "alice"));
     await addUser(User(5, "user", "user", "123"));
 

@@ -23,9 +23,14 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(height: 24),
-          ProfileWidget(
-            imagePath: 'watch_next/assets/images/stingy.jpg',
-            onClicked: () async {},
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            minRadius: 80.0,
+            child: CircleAvatar(
+              radius: 70.0,
+              backgroundImage: AssetImage(
+                  'assets/images/'+widget.loggedUser.name+'.jpg'),
+            ),
           ),
           const SizedBox(height: 24),
           buildName(widget.loggedUser),
