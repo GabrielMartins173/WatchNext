@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:watch_next/Entities/user.dart';
+import 'package:watch_next/Entities/user_item.dart';
 
 import 'Entities/item.dart';
 import 'package:watch_next/Entities/notification.dart';
@@ -12,7 +13,7 @@ class WatchNextDatabase {
     await db.execute("""DROP TABLE IF EXISTS ITEM""");
     await db.execute("""DROP TABLE IF EXISTS USER""");
     await db.execute("""DROP TABLE IF EXISTS NOTIFICATION""");
-    db.close();
+    await db.execute("""DROP TABLE IF EXISTS USER_ITEM""");
   }
 
   static Future<void> createDB(Database db) async {
@@ -35,6 +36,14 @@ class WatchNextDatabase {
         MESSAGE VARCHAR2
         );""");
 
+    await db.execute("""CREATE TABLE USER_ITEM (
+        USER_ID INTEGER,
+        ITEM_ID INTEGER,
+        PRIMARY KEY(USER_ID, ITEM_ID),
+        FOREIGN KEY(USER_ID) REFERENCES USER(ID),
+        FOREIGN KEY(ITEM_ID) REFERENCES ITEM(ID)
+        );""");
+
     await populate();
   }
 
@@ -42,7 +51,6 @@ class WatchNextDatabase {
     await deleteDB();
     var db = await openDB();
     await createDB(db);
-    db.close();
   }
 
   static Future<void> populate() async {
@@ -63,6 +71,12 @@ class WatchNextDatabase {
     await addItem(Item(9, "Avatar", "Aang é um menino de apenas 12 anos que descobre ser o Avatar, grande mestre responsável por garantir o equilíbrio entre os quatro elementos - água, terra, fogo e ar - e suas respectivas nações representantes, mantendo o planeta em segurança."));
     await addItem(Item(10, "Invincible", "Baseada na série homônima de quadrinhos criada por Robert Kirkman (The Walking Dead), Invincible acompanha Mark Grayson, um adolescente que tenta levar uma vida comum, exceto por um pequeno detalhe: ele é filho do super-herói mais poderoso da Terra."));
 
+    await addUserItem(1, 1);
+    await addUserItem(1, 5);
+    await addUserItem(1, 4);
+    await addUserItem(1, 2);
+
+
     await addNotification(NotificationApp(1, "Review",
         "Congrats! Your review on the movie John Wick 3 was successfully posted."));
     await addNotification(NotificationApp(2, "Review Friend", "foo"));
@@ -82,7 +96,6 @@ class WatchNextDatabase {
     var db = await openDB();
     int currentId =
         Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(ID) FROM USER'))!;
-    db.close();
 
     return currentId;
   }
@@ -91,7 +104,6 @@ class WatchNextDatabase {
     var db = await openDB();
     int currentId =
         Sqflite.firstIntValue(await db.rawQuery('SELECT MAX(ID) FROM ITEM'))!;
-    db.close();
 
     return currentId;
   }
@@ -103,7 +115,6 @@ class WatchNextDatabase {
       "EMAIL": user.email,
       "PASSWORD": user.password
     });
-    db.close();
   }
 
   static Future<User> findUserByEmailAndPassword(
@@ -118,7 +129,6 @@ class WatchNextDatabase {
     var userList = maps.map((element) {
       return User.fromJson(element);
     }).toList();
-    db.close();
 
     if (userList.isEmpty) {
       throw FileSystemEntityType.notFound;
@@ -127,10 +137,32 @@ class WatchNextDatabase {
     return userList.first;
   }
 
+  static Future<List<Item>> findItemsByUser(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.rawQuery("""SELECT ITEM.* FROM ITEM JOIN USER_ITEM ON USER_ITEM.ITEM_ID = ITEM.ID WHERE ID = $id""");
+
+    var itemList = maps.map((element) {
+      return Item.fromJson(element);
+    }).toList();
+
+    if (itemList.isEmpty) {
+      throw FileSystemEntityType.notFound;
+    }
+
+    return itemList;
+  }
+
   static Future<void> addItem(Item item) async {
     var db = await openDB();
     await db.insert("ITEM",
         {"ID": item.id, "NAME": item.name, "DESCRIPTION": item.description});
+  }
+
+  static Future<void> addUserItem(userId, itemId) async {
+    var db = await openDB();
+    await db.insert("USER_ITEM",
+        {"USER_ID": userId, "ITEM_ID": itemId});
   }
 
   static Future<Item> findItemById(int id) async {
@@ -144,7 +176,7 @@ class WatchNextDatabase {
     var itemList = maps.map((element) {
       return Item.fromJson(element);
     }).toList();
-    db.close();
+
     return itemList.first;
   }
 
@@ -163,7 +195,6 @@ class WatchNextDatabase {
     var itemList = maps.map((element) {
       return NotificationApp.fromJson(element);
     }).toList();
-    db.close();
     return itemList.first;
   }
 
@@ -177,7 +208,6 @@ class WatchNextDatabase {
       return NotificationApp.fromJson(element);
     }).toList();
 
-    db.close();
     return itemList;
   }
 
@@ -191,7 +221,6 @@ class WatchNextDatabase {
       return Item.fromJson(element);
     }).toList();
 
-    db.close();
     return itemList;
   }
 
@@ -204,8 +233,7 @@ class WatchNextDatabase {
     var userList = maps.map((element) {
       return User.fromJson(element);
     }).toList();
-    //userList.forEach((element) {print(element.name);});
-    db.close();
+
     return userList;
   }
 
@@ -214,6 +242,5 @@ class WatchNextDatabase {
 
     await db.delete("ITEM", where: "ID = ?", whereArgs: [id]);
 
-    db.close();
   }
 }
