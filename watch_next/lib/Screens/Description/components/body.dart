@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/item.dart';
-import 'package:watch_next/Screens/Notifications/notification_screen.dart';
+/*import 'package:watch_next/Screens/Notifications/notification_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_service.dart';
 import 'package:watch_next/Entities/notification.dart';
-import 'package:watch_next/database.dart';
+import 'package:watch_next/database.dart';*/
 
 class Body extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const Body({Key? key, required this.title, required this.item});
 
   // This widget is the home page of your application. It is stateful, meaning
