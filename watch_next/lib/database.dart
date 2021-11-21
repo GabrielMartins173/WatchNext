@@ -140,7 +140,7 @@ class WatchNextDatabase {
   static Future<List<Item>> findItemsByUser(int id) async {
     var db = await openDB();
 
-    List<Map> maps = await db.rawQuery("""SELECT ITEM.* FROM ITEM JOIN USER_ITEM ON USER_ITEM.ITEM_ID = ITEM.ID WHERE ID = $id""");
+    List<Map> maps = await db.rawQuery("""SELECT ITEM.* FROM ITEM JOIN USER_ITEM ON USER_ITEM.ITEM_ID = ITEM.ID WHERE USER_ID = $id""");
 
     var itemList = maps.map((element) {
       return Item.fromJson(element);

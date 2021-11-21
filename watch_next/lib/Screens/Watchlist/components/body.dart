@@ -37,7 +37,8 @@ class Body extends StatelessWidget {
     var containerList = itemList
         .map((item) => Container(
               padding: const EdgeInsets.all(8),
-              child: Row(children: [
+              child: Card(child:
+              Row(children: [
                 Container(
                   child:
                       Image.asset('assets/images/' + item.name + '_logo.png'),
@@ -47,8 +48,11 @@ class Body extends StatelessWidget {
                 ElevatedButton(onPressed: () {}, child: const Text("delete"))
               ],
               mainAxisAlignment: MainAxisAlignment.spaceBetween),
-              color: Colors.teal[600],
-            ))
+                color: const Color(0xA41C1C1C),
+                semanticContainer: true,
+                shadowColor: const Color(0xD8F63434),
+                elevation: 15,
+            )))
         .toList();
 
     return Column(children: containerList);

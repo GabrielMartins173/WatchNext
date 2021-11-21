@@ -10,7 +10,8 @@ import '../../../Entities/item.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key, required this.title, required this.loggedUser}) : super(key: key);
+  const Body({Key? key, required this.title, required this.loggedUser})
+      : super(key: key);
 
   // This Widgets is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -145,8 +146,7 @@ class _MyHomePageState extends State<Body> {
     List<Item> itemList = (await WatchNextDatabase.getAllItems()).cast<Item>();
 
     var containerList = itemList
-        .map((item) => Container(
-              padding: const EdgeInsets.all(8),
+        .map((item) => Card(
               child: Column(children: [
                 Text(item.name),
                 Expanded(
@@ -173,7 +173,10 @@ class _MyHomePageState extends State<Body> {
                     },
                     child: const Text("delete"))
               ]),
-              color: Colors.teal[600],
+              color: const Color(0xA41C1C1C),
+              semanticContainer: true,
+              shadowColor: const Color(0xD8F63434),
+              elevation: 15,
             ))
         .toList();
 
@@ -187,7 +190,7 @@ class _MyHomePageState extends State<Body> {
     return grid;
   }
 
-  Future<Widget> profilePage(User loggedUser) async{
+  Future<Widget> profilePage(User loggedUser) async {
     return ProfilePage(loggedUser: loggedUser);
   }
 }
