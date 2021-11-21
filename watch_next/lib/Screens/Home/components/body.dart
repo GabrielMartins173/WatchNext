@@ -4,6 +4,7 @@ import 'package:watch_next/Screens/Description/description_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_service.dart';
 import 'package:watch_next/Entities/notification.dart';
+import 'package:watch_next/Screens/Profile/profile_page.dart';
 import 'package:watch_next/Screens/Watchlist/watchlist_screen.dart';
 import '../../../Entities/item.dart';
 import 'package:watch_next/database.dart';
@@ -11,12 +12,12 @@ import 'package:watch_next/database.dart';
 class Body extends StatefulWidget {
   const Body({Key? key, required this.title, required this.loggedUser}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
+  // This Widgets is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
 
   // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
+  // case the title) provided by the parent (in this case the App Widgets) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
@@ -94,7 +95,18 @@ class _MyHomePageState extends State<Body> {
               }
             },
           ),
-          Container(color: Colors.green),
+          FutureBuilder<Widget>(
+            future: profilePage(widget.loggedUser),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data!;
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else {
+                return const Text("waiting");
+              }
+            },
+          ),
         ],
       ),
 
@@ -173,5 +185,9 @@ class _MyHomePageState extends State<Body> {
         crossAxisCount: 2,
         children: containerList);
     return grid;
+  }
+
+  Future<Widget> profilePage(User loggedUser) async{
+    return ProfilePage(loggedUser: loggedUser);
   }
 }

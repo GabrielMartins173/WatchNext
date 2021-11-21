@@ -9,12 +9,12 @@ class Body extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
   const Body({Key? key, required this.title, required this.item});
 
-  // This widget is the home page of your application. It is stateful, meaning
+  // This Widgets is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
 
   // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
+  // case the title) provided by the parent (in this case the App Widgets) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
