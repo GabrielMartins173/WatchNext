@@ -36,23 +36,13 @@ class Body extends StatelessWidget {
       ),
       body: PageView(
         children: [
-          FutureBuilder<Widget>(
-              future: getCard(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return snapshot.data!;
-                } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                } else {
-                  return const Text("waiting");
-                }
-              }),
+          getCard(),
         ],
       ),
     );
   }
 
-  Future<Widget> getCard() async {
+  Widget getCard() {
     return Container(
       padding: const EdgeInsets.all(8),
       child: Column(children: [
