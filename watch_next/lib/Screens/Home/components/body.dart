@@ -96,7 +96,7 @@ class _MyHomePageState extends State<Body> {
             },
           ),
           FutureBuilder<Widget>(
-            future: profilePage(),
+            future: profilePage(widget.loggedUser),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data!;
@@ -187,7 +187,7 @@ class _MyHomePageState extends State<Body> {
     return grid;
   }
 
-  Future<Widget> profilePage() async{
-    return const ProfilePage();
+  Future<Widget> profilePage(User loggedUser) async{
+    return ProfilePage(loggedUser: loggedUser);
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/user.dart';
-import 'package:watch_next/Utils/user_preferences.dart';
 import 'package:watch_next/Widgets/button_widget.dart';
 import 'package:watch_next/Widgets/numbers_widget.dart';
 import 'package:watch_next/Widgets/profile_widget.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({Key? key, required this.loggedUser}) : super(key: key);
+
+  final User loggedUser;
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -16,7 +17,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final user = UserPreferences.myUser;
 
     return Scaffold(
       body: ListView(
@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onClicked: () async {},
           ),
           const SizedBox(height: 24),
-          buildName(user),
+          buildName(widget.loggedUser),
           const SizedBox(height: 24),
           const NumbersWidget(),
           const SizedBox(height: 36),
