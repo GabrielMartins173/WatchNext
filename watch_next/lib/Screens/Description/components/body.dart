@@ -51,6 +51,7 @@ class Body extends StatelessWidget {
           child: Image(
               image: AssetImage('assets/images/' + item.name + '_poster.jpg')),
         ),
+        Text(item.description)
       ]),
       color: Colors.teal[600],
     );

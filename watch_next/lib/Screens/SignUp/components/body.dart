@@ -56,6 +56,14 @@ class Body extends StatelessWidget {
               text: "SIGNUP",
               press: () {
                 LoginService.signUp(name, email, password);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const LoginScreen();
+                    },
+                  ),
+                );
               },
             ),
             SizedBox(height: size.height * 0.03),

@@ -17,20 +17,20 @@ class WatchNextDatabase {
 
   static Future<void> createDB(Database db) async {
     await db.execute("""CREATE TABLE ITEM (
-        ID NUMERIC PRIMARY KEY,
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME VARCHAR2,
         DESCRIPTION VARCHAR2
         );""");
 
     await db.execute("""CREATE TABLE USER (
-        ID NUMERIC PRIMARY KEY,
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME VARCHAR2,
         EMAIL VARCHAR2,
         PASSWORD VARCHAR2
         );""");
 
     await db.execute("""CREATE TABLE NOTIFICATION (
-        ID NUMERIC PRIMARY KEY,
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
         TYPE VARCHAR2,
         MESSAGE VARCHAR2
         );""");
@@ -92,8 +92,8 @@ class WatchNextDatabase {
 
   static Future<void> addUser(User user) async {
     var db = await openDB();
+    print(user);
     await db.insert("USER", {
-      "ID": user.id,
       "NAME": user.name,
       "EMAIL": user.email,
       "PASSWORD": user.password
