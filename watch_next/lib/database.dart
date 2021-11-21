@@ -46,16 +46,22 @@ class WatchNextDatabase {
   }
 
   static Future<void> populate() async {
-    await addUser(User(1, "Alan", "Saxobeat@usgu.com", "1234"));
-    await addUser(User(2, "Gabriel", "Midoriya@usgu.com", "password"));
-    await addUser(User(3, "Lucas", "Pikachu@usgu.com", "data de aniversario"));
-    await addUser(User(4, "Leo", "Doge@usgu.com", "alice"));
+    await addUser(User(1, "Alan", "saxobeat@usgu.com", "1234"));
+    await addUser(User(2, "Gabriel", "midoriya@usgu.com", "password"));
+    await addUser(User(3, "Lucas", "pikachu@usgu.com", "data de aniversario"));
+    await addUser(User(4, "Leo", "doge@usgu.com", "alice"));
     await addUser(User(5, "user", "user", "123"));
 
     await addItem(Item(1, "John Wick", "John Wick é um lendário assassino de aluguel aposentado, lidando com o luto após perder o grande amor de sua vida. Quando um gângster invade sua casa, mata seu cachorro e rouba seu carro, ele é forçado a voltar à ativa e inicia sua vingança."));
     await addItem(Item(2, "Seinfeld", "O comediante Jerry Seinfeld, interpretado por ele mesmo, passa pelas mais triviais aventuras cotidianas, como tomar café em uma lanchonete ou alugar filme em uma locadora, ao lado da feminista Elaine (Julia Louis-Dreyfus), do neurótico George (Jason Alexander) e do vizinho folgado Kramer (George Costanza)."));
     await addItem(Item(3, "Naruto", "Naruto é um jovem órfão habitante da Vila da Folha que sonha se tornar o quinto Hokage, o maior guerreiro e governante da vila. ... Agora Naruto vai contar com a ajuda dos colegas Sakura e Sasuke e do professor dos três, Kakashi Hatake, para perseguir seu sonho e deter os ninjas que planejam fazer mal á sua cidade."));
     await addItem(Item(4, "Takt Op", "Atraídos para a Terra pela música dos humanos, estranhos monstros conhecidos como D2 agora assolam a Terra e a humanidade. Para impedir seu avanço, a música é proibida em todo o mundo. Entretanto, surgem aqueles dispostos a combater os monstros: Musicarts, garotas que manejam a música como arma, usando as grandes óperas e partituras da história a seu favor para derrotar os D2s, e os Conductors, que as orientam e guiam. Em 2047, um Conductor chamado Takt e uma Musicart chamada Destiny viajam pelos EUA, tentando reviver a música e aniquilar os D2 restantes."));
+    await addItem(Item(5, "Arcane", "A trama gira em torno de uma tecnologia mágica conhecida com hextec que dá a qualquer pessoa a habilidade de controlar energia mística e essa ferramenta acaba causando um desequilíbrio entre os reinos."));
+    await addItem(Item(6, "Spider Man", "Peter Parker está em uma viagem de duas semanas pela Europa, ao lado de seus amigos de colégio, quando é surpreendido pela visita de Nick Fury. Convocado para mais uma missão heroica, ele precisa enfrentar vários vilões que surgem em cidades-símbolo do continente, como Londres, Paris e Veneza, e também a aparição do enigmático Mysterio."));
+    await addItem(Item(7, "Steven Universe", "A série segue as aventuras de Steven, um garoto que herdou uma poderosa missão e, junto de seus amigos Garnet, Amethyst e Pearl, precisarão proteger o mundo de certas ameaças. Enquanto Steven tenta descobrir como usar sua herança, ele passa seus dias na Beach City se divertindo com seus amigos."));
+    await addItem(Item(8, "Red Notice", "Um alerta vermelho da Interpol é emitido e o agente do FBI John Hartley assume o caso. Durante sua busca, ele se vê diante de um assalto ousado e é forçado a se aliar ao maior ladrão de arte da história, Nolan Booth, para capturar a ladra de arte mais procurada do mundo atualmente, Sarah Black."));
+    await addItem(Item(9, "Avatar", "Aang é um menino de apenas 12 anos que descobre ser o Avatar, grande mestre responsável por garantir o equilíbrio entre os quatro elementos - água, terra, fogo e ar - e suas respectivas nações representantes, mantendo o planeta em segurança."));
+    await addItem(Item(10, "Invincible", "Baseada na série homônima de quadrinhos criada por Robert Kirkman (The Walking Dead), Invincible acompanha Mark Grayson, um adolescente que tenta levar uma vida comum, exceto por um pequeno detalhe: ele é filho do super-herói mais poderoso da Terra."));
 
     await addNotification(NotificationApp(1, "Review",
         "Congrats! Your review on the movie John Wick 3 was successfully posted."));
