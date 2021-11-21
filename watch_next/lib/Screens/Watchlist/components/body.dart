@@ -4,16 +4,16 @@ import 'package:watch_next/Entities/user.dart';
 
 class Body extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-  const Body({required this.user});
+  const Body({required this.loggedUser});
 
-  final User user;
+  final User loggedUser;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: PageView(
-      children: const [
-        Text("Watchlist")
+      children: [
+        Text(loggedUser.name)
       ],
     ));
   }

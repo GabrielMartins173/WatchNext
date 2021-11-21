@@ -65,7 +65,7 @@ class _MyHomePageState extends State<Body> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title + '    bem vindo ' + widget.loggedUser.name),
+        title: Text(widget.title),
       ),
       body: PageView(
         controller: pageController,
@@ -81,7 +81,7 @@ class _MyHomePageState extends State<Body> {
                   return const Text("waiting");
                 }
               }),
-          WatchlistScreen(user: widget.loggedUser),
+          WatchlistScreen(loggedUser: widget.loggedUser),
           FutureBuilder<Widget>(
             future: builderNotifications(),
             builder: (context, snapshot) {
