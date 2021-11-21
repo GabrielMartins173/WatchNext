@@ -56,11 +56,12 @@ class Body extends StatelessWidget {
               press: () async {
                 await WatchNextDatabase.recreateDB();
                 if (await LoginService.signIn(email, password)) {
+                  var user = await WatchNextDatabase.findUserByEmailAndPassword(email, password);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return const HomeScreen();
+                        return HomeScreen(loggedUser: user);
                       },
                     ),
                   );
