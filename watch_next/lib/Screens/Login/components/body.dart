@@ -11,6 +11,8 @@ import 'package:watch_next/components/rounded_button.dart';
 import 'package:watch_next/components/rounded_input_field.dart';
 import 'package:watch_next/components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../database.dart';
 //import 'package:watch_next/database.dart';
 
 class Body extends StatelessWidget {
@@ -52,7 +54,7 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () async {
-                //await WatchNextDatabase.recreateDB();
+                await WatchNextDatabase.recreateDB();
                 if (await LoginService.signIn(email, password)) {
                   Navigator.push(
                     context,

@@ -92,12 +92,8 @@ class WatchNextDatabase {
 
   static Future<void> addUser(User user) async {
     var db = await openDB();
-    print(user);
-    await db.insert("USER", {
-      "NAME": user.name,
-      "EMAIL": user.email,
-      "PASSWORD": user.password
-    });
+    await db.insert("USER",
+        {"NAME": user.name, "EMAIL": user.email, "PASSWORD": user.password});
     db.close();
   }
 
