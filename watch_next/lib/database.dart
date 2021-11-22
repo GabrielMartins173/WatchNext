@@ -75,6 +75,11 @@ class WatchNextDatabase {
     await addUserItem(1, 5);
     await addUserItem(1, 4);
     await addUserItem(1, 2);
+    await addUserItem(2, 4);
+    await addUserItem(2, 5);
+    await addUserItem(2, 6);
+    await addUserItem(2, 7);
+    await addUserItem(2, 3);
 
 
     await addNotification(NotificationApp(1, "Review",
@@ -115,6 +120,12 @@ class WatchNextDatabase {
       "EMAIL": user.email,
       "PASSWORD": user.password
     });
+  }
+
+  static Future<void> updateUser(User userToUpdate, name, email, password) async {
+    var db = await openDB();
+    var userToUpdateId = userToUpdate.id;
+    await db.rawUpdate("UPDATE USER SET NAME = '$name', EMAIL = '$email', PASSWORD = '$password' WHERE ID = '$userToUpdateId'");
   }
 
   static Future<User> findUserByEmailAndPassword(

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/user.dart';
+import 'package:watch_next/Screens/Profile/edit_profile.dart';
 import 'package:watch_next/Widgets/button_widget.dart';
 import 'package:watch_next/Widgets/numbers_widget.dart';
-import 'package:watch_next/Widgets/profile_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.loggedUser}) : super(key: key);
@@ -37,11 +37,11 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: 24),
           const NumbersWidget(),
           const SizedBox(height: 36),
-          Center(child: buildPrivacyButton()),
+          Center(child: buildInfoButton(widget.loggedUser)),
           const SizedBox(height: 12),
           Center(child: buildReviewsButton()),
           const SizedBox(height: 12),
-          Center(child: buildInfoButton()),
+          Center(child: buildPrivacyButton()),
         ],
       ),
     );
@@ -62,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
   );
 
   Widget buildPrivacyButton() => ButtonWidget(
-    text: 'Account Information',
+    text: '     Privacy Policy     ',
     onClicked: () {},
   );
 
@@ -71,8 +71,16 @@ class _ProfilePageState extends State<ProfilePage> {
     onClicked: () {},
   );
 
-  Widget buildInfoButton() => ButtonWidget(
-    text: '     Privacy Policy     ',
-    onClicked: () {},
+  Widget buildInfoButton(User loggedUser) => ButtonWidget(
+    text: 'Account Information',
+    onClicked: () {
+      Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return EditProfilePage(loggedUser: loggedUser,);
+        },
+      ),
+    );},
   );
 }
