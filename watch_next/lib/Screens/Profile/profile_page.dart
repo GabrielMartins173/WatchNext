@@ -61,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
               context,
               MaterialPageRoute(builder: (context) => EditProfilePage(loggedUser: user)),
             ).whenComplete(() => setState(() {}));
-
           },
         )),
         const SizedBox(height: 12),

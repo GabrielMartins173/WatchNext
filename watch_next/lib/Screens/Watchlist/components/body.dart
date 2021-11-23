@@ -51,11 +51,9 @@ class _WatchList extends State<Body> {
         await WatchNextDatabase.findItemsByUser(widget.loggedUser.id);
 
     var containerList = itemList
-        .map((item) => Container(
-              padding: const EdgeInsets.all(8),
-              child: Card(child:
+        .map((item) => Card(child:
               Row(children: [
-                Container(
+                SizedBox(
                   child:
                       Image.asset('assets/images/' + item.name + '_logo.png'),
                   width: 100,
@@ -68,7 +66,7 @@ class _WatchList extends State<Body> {
                 semanticContainer: true,
                 shadowColor: const Color(0xD8F63434),
                 elevation: 15,
-            )))
+            ))
         .toList();
 
     return Column(children: containerList);
