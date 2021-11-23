@@ -56,7 +56,8 @@ class Body extends StatelessWidget {
               press: () async {
                 await WatchNextDatabase.recreateDB();
                 if (await LoginService.signIn(email, password)) {
-                  var user = await WatchNextDatabase.findUserByEmailAndPassword(email, password);
+                  var user = await WatchNextDatabase.findUserByEmailAndPassword(
+                      email, password);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -66,13 +67,31 @@ class Body extends StatelessWidget {
                     ),
                   );
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const LoginScreen();
-                      },
-                    ),
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Faied to login into your account'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: const <Widget>[
+                              Text('Username or password is incorrect'),
+                              Text(
+                                  'Click on the button bellow to try again'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Close'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   );
                 }
               },

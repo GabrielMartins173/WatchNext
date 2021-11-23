@@ -12,8 +12,8 @@ class LoginService {
     return true;
   }
 
-  static Future<void> signUp(String name, String email, String password) async {
+  static Future<void> signUp(String name, String email, String password, String imagePath) async {
     WatchNextDatabase.addUser(
-        User(await WatchNextDatabase.getNextUserId(), name, email, password));
+        User(await WatchNextDatabase.getNextUserId(), name, email, password, imagePath));
   }
 }
