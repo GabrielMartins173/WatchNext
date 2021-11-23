@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/item.dart';
+import 'package:watch_next/Entities/user.dart';
+import 'package:watch_next/database.dart';
 /*import 'package:watch_next/Screens/Notifications/notification_screen.dart';
 import 'package:watch_next/Screens/Notifications/notification_service.dart';
 import 'package:watch_next/Entities/notification.dart';
@@ -7,7 +9,7 @@ import 'package:watch_next/database.dart';*/
 
 class Body extends StatelessWidget {
   // ignore: use_key_in_widget_constructors
-  const Body({Key? key, required this.title, required this.item});
+  const Body({Key? key, required this.title, required this.item, required this.loggedUser});
 
   // This Widgets is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -20,6 +22,7 @@ class Body extends StatelessWidget {
 
   final String title;
   final Item item;
+  final User loggedUser;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +44,7 @@ class Body extends StatelessWidget {
       padding: const EdgeInsets.all(8),
 
       child: Column(children: [
-        ElevatedButton(onPressed: () {}, child: const Text("Add to Watchlist")),
+        ElevatedButton(onPressed: () {WatchNextDatabase.addUserItem(loggedUser.id, item.id); Navigator.of(context).pop();}, child: const Text("Add to Watchlist")),
         ElevatedButton(onPressed: () {}, child: const Text("Write a review")),
         Container(
           child: Image(

@@ -61,7 +61,7 @@ class _WatchList extends State<Body> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DescriptionScreen(item: item)),
+                            builder: (context) => DescriptionScreen(item: item, loggedUser: widget.loggedUser)),
                       );
                     },
                     child: ClipRRect(child: Row(children: [
