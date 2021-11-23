@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/user.dart';
 import 'package:watch_next/Screens/Profile/edit_profile.dart';
+import 'package:watch_next/Screens/Reviews/reviews_screen.dart';
 import 'package:watch_next/Widgets/button_widget.dart';
 import 'package:watch_next/Widgets/numbers_widget.dart';
 import 'package:watch_next/database.dart';
@@ -62,7 +63,17 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         )),
         const SizedBox(height: 12),
-        Center(child: buildReviewsButton()),
+        Center(
+            child: ButtonWidget(
+          text: '        My Reviews        ',
+          onClicked: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ReviewsScreen(loggedUser: user)),
+            ).whenComplete(() => setState(() {}));
+          },
+        )),
         const SizedBox(height: 12),
         Center(child: buildPrivacyButton()),
       ],
@@ -85,11 +96,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildPrivacyButton() => ButtonWidget(
         text: '     Privacy Policy     ',
-        onClicked: () {},
-      );
-
-  Widget buildReviewsButton() => ButtonWidget(
-        text: '        My Reviews        ',
         onClicked: () {},
       );
 }
