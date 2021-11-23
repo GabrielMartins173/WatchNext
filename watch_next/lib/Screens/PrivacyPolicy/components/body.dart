@@ -29,16 +29,15 @@ class _PrivacyPolicy extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title)),
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+            title: Text(widget.title)),
         body: PageView(
           children: [
             FutureBuilder<Widget>(
-                future: getCards(),
+                future: getPrivacyPolicy(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return snapshot.data!;
@@ -52,55 +51,18 @@ class _PrivacyPolicy extends State<Body> {
         ));
   }
 
-  Future<Widget> getCards() async {
-    List<Item> itemList =
-    await WatchNextDatabase.findItemsByUser(widget.loggedUser.id);
-
-    var reviews = itemList
-        .map((item) => Card(
-      key: ValueKey(item),
-      child: ListTile(
-          title: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DescriptionScreen(item: item)),
-                );
-              },
-              child: ClipRRect(child: Row(children: [
-                SizedBox(
-                  child: Image.asset(
-                      'assets/images/' + item.name + '_logo.png'),
-                  width: 100,
-                ),
-                Text(item.name),
-                ElevatedButton(
-                    onPressed: () {
-                      WatchNextDatabase.removeUserItem(
-                          widget.loggedUser.id, item.id);
-                      setState(() {});
-                    },
-                    child: const Text("delete"))
-              ], mainAxisAlignment: MainAxisAlignment.spaceBetween))),
-          leading: const Icon(CupertinoIcons.line_horizontal_3)),
-      color: const Color(0xA41C1C1C),
-      semanticContainer: true,
-      shadowColor: const Color(0xD8F63434),
-      elevation: 15,
-    ))
-        .toList();
-
-    return ReorderableListView(
-        children: reviews,
-        onReorder: (int oldIndex, int newIndex) {
-          setState(() {
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
-            final item = reviews.removeAt(oldIndex);
-            reviews.insert(newIndex, item);
-          });
-        });
+  Future<Widget> getPrivacyPolicy() async {
+    return SizedBox(
+        height: 50,
+        child: Card(
+        child: Image.asset(
+        'assets/images/privacyPolicy.png',
+    ),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10.0),
+    ),
+    elevation: 5,
+    margin: const EdgeInsets.all(10),
+    ));
   }
 }
