@@ -241,6 +241,12 @@ class WatchNextDatabase {
         {"USER_ID": userId, "ITEM_ID": itemId, "TEXT": review});
   }
 
+  static Future<void> removeReview(userId, itemId) async {
+    var db = await openDB();
+    await db.delete("REVIEW",
+        where:"USER_ID = ? and ITEM_ID = ?", whereArgs: [userId, itemId]);
+  }
+
   static Future<List<Review>> findReviewsByUser(int id) async {
     var db = await openDB();
 
