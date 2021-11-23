@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/item.dart';
-import 'package:watch_next/Entities/notification.dart';
 import 'package:watch_next/Entities/user.dart';
+import 'package:watch_next/Screens/Description/description_screen.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
@@ -25,6 +26,7 @@ class Body extends StatefulWidget {
 }
 
 class _WatchList extends State<Body> {
+  List<Widget> watchList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -50,25 +52,51 @@ class _WatchList extends State<Body> {
     List<Item> itemList =
         await WatchNextDatabase.findItemsByUser(widget.loggedUser.id);
 
-    var containerList = itemList
-        .map((item) => Card(child:
-              Row(children: [
-                SizedBox(
-                  child:
-                      Image.asset('assets/images/' + item.name + '_logo.png'),
-                  width: 100,
-                ),
-                Text(item.name),
-                ElevatedButton(onPressed: () {WatchNextDatabase.removeUserItem(widget.loggedUser.id, item.id); setState(() {});}, child: const Text("delete"))
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween),
-                color: const Color(0xA41C1C1C),
-                semanticContainer: true,
-                shadowColor: const Color(0xD8F63434),
-                elevation: 15,
+    var watchList = itemList
+        .map((item) => Card(
+              key: ValueKey(item),
+              child: ListTile(
+                  title: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DescriptionScreen(item: item)),
+                      );
+                    },
+                    child: ClipRRect(child: Row(children: [
+                    SizedBox(
+                      child: Image.asset(
+                          'assets/images/' + item.name + '_logo.png'),
+                      width: 100,
+                    ),
+                    Text(item.name),
+                    ElevatedButton(
+                        onPressed: () {
+                          WatchNextDatabase.removeUserItem(
+                              widget.loggedUser.id, item.id);
+                          setState(() {});
+                        },
+                        child: const Text("delete"))
+                  ], mainAxisAlignment: MainAxisAlignment.spaceBetween))),
+                  leading: const Icon(CupertinoIcons.line_horizontal_3)),
+              color: const Color(0xA41C1C1C),
+              semanticContainer: true,
+              shadowColor: const Color(0xD8F63434),
+              elevation: 15,
             ))
         .toList();
 
-    return Column(children: containerList);
+    return ReorderableListView(
+        children: watchList,
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final item = watchList.removeAt(oldIndex);
+            watchList.insert(newIndex, item);
+          });
+        });
   }
 }
