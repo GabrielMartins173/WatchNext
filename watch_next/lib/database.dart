@@ -127,9 +127,6 @@ class WatchNextDatabase {
 
   static Future<void> updateUser(User userToUpdate, name, email, password) async {
     var db = await openDB();
-    print("valor nome " + name);
-    print("valor email  " + email);
-    print("valor password " + userToUpdate.id.toString());
     var userToUpdateId = userToUpdate.id;
     await db.rawUpdate("UPDATE USER SET NAME = '$name', EMAIL = '$email', PASSWORD = '$password' WHERE ID = '$userToUpdateId'");
   }

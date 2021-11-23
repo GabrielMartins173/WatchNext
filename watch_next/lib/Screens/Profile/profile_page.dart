@@ -18,20 +18,18 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: FutureBuilder<Widget>(
-          future: buildBody(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return snapshot.data!;
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            } else {
-              return const Text("waiting");
-            }
-          })
-    );
+        body: FutureBuilder<Widget>(
+            future: buildBody(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data!;
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else {
+                return const Text("waiting");
+              }
+            }));
   }
 
   Future<Widget> buildBody() async {
@@ -44,22 +42,22 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Colors.blue,
           minRadius: 80.0,
           child: CircleAvatar(
-            radius: 70.0,
-            backgroundImage: AssetImage(
-                widget.loggedUser.imagePath),
-          ),
+              radius: 70.0,
+              backgroundImage: AssetImage(widget.loggedUser.imagePath)),
         ),
         const SizedBox(height: 24),
         buildName(user),
         const SizedBox(height: 24),
         const NumbersWidget(),
         const SizedBox(height: 36),
-        Center(child: ButtonWidget(
+        Center(
+            child: ButtonWidget(
           text: 'Account Information',
           onClicked: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => EditProfilePage(loggedUser: user)),
+              MaterialPageRoute(
+                  builder: (context) => EditProfilePage(loggedUser: user)),
             ).whenComplete(() => setState(() {}));
           },
         )),
@@ -72,26 +70,26 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildName(User user) => Column(
-    children: [
-      Text(
-        user.name,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-      ),
-      const SizedBox(height: 4),
-      Text(
-        user.email,
-        style: const TextStyle(color: Colors.grey),
-      )
-    ],
-  );
+        children: [
+          Text(
+            user.name,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            user.email,
+            style: const TextStyle(color: Colors.grey),
+          )
+        ],
+      );
 
   Widget buildPrivacyButton() => ButtonWidget(
-    text: '     Privacy Policy     ',
-    onClicked: () {},
-  );
+        text: '     Privacy Policy     ',
+        onClicked: () {},
+      );
 
   Widget buildReviewsButton() => ButtonWidget(
-    text: '        My Reviews        ',
-    onClicked: () {},
-  );
+        text: '        My Reviews        ',
+        onClicked: () {},
+      );
 }
