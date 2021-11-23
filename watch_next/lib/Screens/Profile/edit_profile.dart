@@ -11,9 +11,9 @@ class EditProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String name = "";
-    String email = "";
-    String password = "";
+    String name = loggedUser.name;
+    String email = loggedUser.email;
+    String password = loggedUser.password;
 
     return Scaffold(
       body: ListView(
