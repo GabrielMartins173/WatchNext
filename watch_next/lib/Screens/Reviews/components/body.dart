@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/item.dart';
 import 'package:watch_next/Entities/review.dart';
 import 'package:watch_next/Entities/user.dart';
-import 'package:watch_next/Screens/Description/description_screen.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
