@@ -6,10 +6,10 @@ import 'package:watch_next/Screens/Login/components/background.dart';
 import 'package:watch_next/Screens/Login/login_screen.dart';
 import 'package:watch_next/Screens/Login/login_service.dart';
 import 'package:watch_next/Screens/SignUp/signup_screen.dart';
-import 'package:watch_next/components/already_have_an_account_acheck.dart';
-import 'package:watch_next/components/rounded_button.dart';
-import 'package:watch_next/components/rounded_input_field.dart';
-import 'package:watch_next/components/rounded_password_field.dart';
+import 'package:watch_next/Components/already_have_an_account_acheck.dart';
+import 'package:watch_next/Components/rounded_button.dart';
+import 'package:watch_next/Components/rounded_input_field.dart';
+import 'package:watch_next/Components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../database.dart';
@@ -54,6 +54,7 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () async {
+                await WatchNextDatabase.recreateDB();
                 if (await LoginService.signIn(email, password)) {
                   var user = await WatchNextDatabase.findUserByEmailAndPassword(
                       email, password);
@@ -76,8 +77,7 @@ class Body extends StatelessWidget {
                           child: ListBody(
                             children: const <Widget>[
                               Text('Username or password is incorrect'),
-                              Text(
-                                  'Click on the button bellow to try again'),
+                              Text('Click on the button bellow to try again'),
                             ],
                           ),
                         ),
