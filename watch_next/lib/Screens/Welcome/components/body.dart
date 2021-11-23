@@ -8,11 +8,15 @@ import 'package:watch_next/components/rounded_button.dart';
 import 'package:watch_next/constants.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../database.dart';
+
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    WatchNextDatabase.recreateDB();
     Size size = MediaQuery.of(context).size;
     // This size provide us total height and width of our screen
     return Background(
