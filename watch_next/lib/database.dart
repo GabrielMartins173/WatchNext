@@ -54,11 +54,11 @@ class WatchNextDatabase {
   }
 
   static Future<void> populate() async {
-    await addUser(User(1, "Alan", "saxobeat@usgu.com", "1234"));
-    await addUser(User(2, "Gabriel", "midoriya@usgu.com", "password"));
-    await addUser(User(3, "Lucas", "pikachu@usgu.com", "senha"));
-    await addUser(User(4, "Leo", "doge@usgu.com", "alice"));
-    await addUser(User(5, "user", "user", "123"));
+    await addUser(User(1, "Alan", "saxobeat@usgu.com", "1234", "assets/images/Alan.jpg"));
+    await addUser(User(2, "Gabriel", "midoriya@usgu.com", "password", "assets/images/Gabriel.jpg"));
+    await addUser(User(3, "Lucas", "pikachu@usgu.com", "senha", "assets/images/Lucas.jpg"));
+    await addUser(User(4, "Leo", "doge@usgu.com", "alice", "assets/images/doge.jpg"));
+    await addUser(User(5, "user", "user", "123", "assets/images/test_logo.png"));
 
     await addItem(Item(1, "John Wick", "John Wick é um lendário assassino de aluguel aposentado, lidando com o luto após perder o grande amor de sua vida. Quando um gângster invade sua casa, mata seu cachorro e rouba seu carro, ele é forçado a voltar à ativa e inicia sua vingança."));
     await addItem(Item(2, "Seinfeld", "O comediante Jerry Seinfeld, interpretado por ele mesmo, passa pelas mais triviais aventuras cotidianas, como tomar café em uma lanchonete ou alugar filme em uma locadora, ao lado da feminista Elaine (Julia Louis-Dreyfus), do neurótico George (Jason Alexander) e do vizinho folgado Kramer (George Costanza)."));
@@ -80,6 +80,9 @@ class WatchNextDatabase {
     await addUserItem(2, 6);
     await addUserItem(2, 7);
     await addUserItem(2, 3);
+    await addUserItem(3, 1);
+    await addUserItem(3, 3);
+    await addUserItem(3, 10);
 
 
     await addNotification(NotificationApp(1, "Review",

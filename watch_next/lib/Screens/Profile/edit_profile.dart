@@ -26,7 +26,7 @@ class EditProfilePage extends StatelessWidget {
             child: CircleAvatar(
               radius: 70.0,
               backgroundImage:
-                  AssetImage('assets/images/' + loggedUser.name + '.jpg'),
+                  AssetImage(loggedUser.imagePath),
             ),
           ),
           Container(

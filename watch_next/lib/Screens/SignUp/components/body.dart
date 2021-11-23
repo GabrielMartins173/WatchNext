@@ -55,7 +55,7 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "SIGNUP",
               press: () {
-                LoginService.signUp(name, email, password);
+                LoginService.signUp(name, email, password, "assets/images/test_logo.png");
                 Navigator.push(
                   context,
                   MaterialPageRoute(
