@@ -3,7 +3,7 @@ class User {
   late final String name;
   late final String email;
   late final String password;
-  final String imagePath;
+  late final String imagePath;
 
   User(this.id, this.name, this.email, this.password, this.imagePath);
 
@@ -12,5 +12,5 @@ class User {
         name = json['NAME'],
         email = json['EMAIL'],
         password = json['PASSWORD'],
-        imagePath = json['IMAGEPATH'];
+        imagePath = json['IMAGE_PATH'];
 }

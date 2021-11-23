@@ -5,7 +5,7 @@ class LoginService {
 
   static Future<bool> signIn(String email, String password) async {
     try {
-      await WatchNextDatabase.findUserByEmailAndPassword(email, password);
+      var test = await WatchNextDatabase.findUserByEmailAndPassword(email, password);
     } catch(e) {
       return false;
     }

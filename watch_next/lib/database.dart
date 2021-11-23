@@ -27,7 +27,8 @@ class WatchNextDatabase {
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME VARCHAR2,
         EMAIL VARCHAR2,
-        PASSWORD VARCHAR2
+        PASSWORD VARCHAR2,
+        IMAGE_PATH VARCHAR2
         );""");
 
     await db.execute("""CREATE TABLE NOTIFICATION (
@@ -121,7 +122,8 @@ class WatchNextDatabase {
     await db.insert("USER", {
       "NAME": user.name,
       "EMAIL": user.email,
-      "PASSWORD": user.password
+      "PASSWORD": user.password,
+      "IMAGE_PATH": user.imagePath
     });
   }
 
@@ -136,7 +138,7 @@ class WatchNextDatabase {
     var db = await openDB();
 
     List<Map> maps = await db.query("USER",
-        columns: ["ID", "NAME", "EMAIL", "PASSWORD"],
+        columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH"],
         where: "EMAIL = ? AND PASSWORD = ?",
         whereArgs: [email, password]);
 
