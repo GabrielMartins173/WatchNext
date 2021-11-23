@@ -1,30 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:watch_next/Components/rounded_input_field.dart';
-import 'package:watch_next/Components/text_field_container.dart';
 import 'package:watch_next/Entities/user.dart';
-import 'package:watch_next/Screens/Profile/profile_page.dart';
 import 'package:watch_next/Widgets/button_widget.dart';
-import 'package:watch_next/Widgets/numbers_widget.dart';
 import 'package:watch_next/database.dart';
 
-class EditProfilePage extends StatefulWidget {
+class EditProfilePage extends StatelessWidget {
   const EditProfilePage({Key? key, required this.loggedUser}) : super(key: key);
 
   final User loggedUser;
 
   @override
-  _EditProfilePageState createState() => _EditProfilePageState();
-}
-
-class _EditProfilePageState extends State<EditProfilePage> {
-  @override
   Widget build(BuildContext context) {
-    String name = widget.loggedUser.name;
-    String email = widget.loggedUser.email;
-    String password = widget.loggedUser.password;
-
-    List inputs = [];
+    String name = "";
+    String email = "";
+    String password = "";
 
     return Scaffold(
       body: ListView(
@@ -36,8 +25,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             minRadius: 80.0,
             child: CircleAvatar(
               radius: 70.0,
-              backgroundImage: AssetImage(
-                  'assets/images/' + widget.loggedUser.name + '.jpg'),
+              backgroundImage:
+                  AssetImage('assets/images/' + loggedUser.name + '.jpg'),
             ),
           ),
           Container(
@@ -46,7 +35,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  initialValue: name,
+                  initialValue: loggedUser.name,
                   decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Enter your username'),
@@ -56,7 +45,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
                 const SizedBox(height: 24),
                 TextFormField(
-                  initialValue: email,
+                  initialValue: loggedUser.email,
                   decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Enter your email'),
@@ -66,7 +55,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 ),
                 const SizedBox(height: 24),
                 TextFormField(
-                  initialValue: password,
+                  initialValue: loggedUser.password,
                   decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Enter your password'),
@@ -75,7 +64,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   },
                 ),
                 const SizedBox(height: 24),
-                buildSaveButton(widget.loggedUser, name, email, password)
+                ButtonWidget(
+                  text: 'Save',
+                  onClicked: () async {
+                    await WatchNextDatabase.updateUser(
+                        loggedUser, name, email, password);
+                    Navigator.pop(context);
+                  },
+                )
               ],
             ),
           ),
@@ -96,16 +92,5 @@ class _EditProfilePageState extends State<EditProfilePage> {
             style: const TextStyle(color: Colors.grey),
           )
         ],
-      );
-
-  Widget buildSaveButton(User loggedUser, name, email, password) =>
-      ButtonWidget(
-        text: 'Save',
-        onClicked: () {
-          print("valor nome " + name);
-          print("valor email  " + email);
-          print("valor password " + password);
-          WatchNextDatabase.updateUser(loggedUser, name, email, password);
-        },
       );
 }

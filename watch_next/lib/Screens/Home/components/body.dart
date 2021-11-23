@@ -166,12 +166,12 @@ class _MyHomePageState extends State<Body> {
                 )),
                 ElevatedButton(
                     onPressed: () {
-                      WatchNextDatabase.deleteItem(item.id);
+                      WatchNextDatabase.addUserItem(widget.loggedUser.id, item.id);
                       setState(() {
                         _counter++;
                       });
                     },
-                    child: const Text("delete"))
+                    child: const Text("Add"))
               ]),
               color: const Color(0xA41C1C1C),
               semanticContainer: true,

@@ -4,6 +4,7 @@ import 'package:watch_next/Entities/user.dart';
 import 'package:watch_next/Screens/Profile/edit_profile.dart';
 import 'package:watch_next/Widgets/button_widget.dart';
 import 'package:watch_next/Widgets/numbers_widget.dart';
+import 'package:watch_next/database.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key, required this.loggedUser}) : super(key: key);
@@ -19,31 +20,55 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          const SizedBox(height: 24),
-          CircleAvatar(
-            backgroundColor: Colors.blue,
-            minRadius: 80.0,
-            child: CircleAvatar(
-              radius: 70.0,
-              backgroundImage: AssetImage(
-                  'assets/images/'+widget.loggedUser.name+'.jpg'),
-            ),
+      body: FutureBuilder<Widget>(
+          future: buildBody(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return snapshot.data!;
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            } else {
+              return const Text("waiting");
+            }
+          })
+    );
+  }
+
+  Future<Widget> buildBody() async {
+    User user = await WatchNextDatabase.findUserById(widget.loggedUser.id);
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: [
+        const SizedBox(height: 24),
+        CircleAvatar(
+          backgroundColor: Colors.blue,
+          minRadius: 80.0,
+          child: CircleAvatar(
+            radius: 70.0,
+            backgroundImage: AssetImage(
+                'assets/images/'+ user.name+'.jpg'),
           ),
-          const SizedBox(height: 24),
-          buildName(widget.loggedUser),
-          const SizedBox(height: 24),
-          const NumbersWidget(),
-          const SizedBox(height: 36),
-          Center(child: buildInfoButton(widget.loggedUser)),
-          const SizedBox(height: 12),
-          Center(child: buildReviewsButton()),
-          const SizedBox(height: 12),
-          Center(child: buildPrivacyButton()),
-        ],
-      ),
+        ),
+        const SizedBox(height: 24),
+        buildName(user),
+        const SizedBox(height: 24),
+        const NumbersWidget(),
+        const SizedBox(height: 36),
+        Center(child: ButtonWidget(
+          text: 'Account Information',
+          onClicked: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EditProfilePage(loggedUser: user)),
+            ).whenComplete(() => setState(() {}));
+
+          },
+        )),
+        const SizedBox(height: 12),
+        Center(child: buildReviewsButton()),
+        const SizedBox(height: 12),
+        Center(child: buildPrivacyButton()),
+      ],
     );
   }
 
@@ -69,18 +94,5 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildReviewsButton() => ButtonWidget(
     text: '        My Reviews        ',
     onClicked: () {},
-  );
-
-  Widget buildInfoButton(User loggedUser) => ButtonWidget(
-    text: 'Account Information',
-    onClicked: () {
-      Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) {
-          return EditProfilePage(loggedUser: loggedUser,);
-        },
-      ),
-    );},
   );
 }

@@ -124,6 +124,9 @@ class WatchNextDatabase {
 
   static Future<void> updateUser(User userToUpdate, name, email, password) async {
     var db = await openDB();
+    print("valor nome " + name);
+    print("valor email  " + email);
+    print("valor password " + userToUpdate.id.toString());
     var userToUpdateId = userToUpdate.id;
     await db.rawUpdate("UPDATE USER SET NAME = '$name', EMAIL = '$email', PASSWORD = '$password' WHERE ID = '$userToUpdateId'");
   }
@@ -136,6 +139,25 @@ class WatchNextDatabase {
         columns: ["ID", "NAME", "EMAIL", "PASSWORD"],
         where: "EMAIL = ? AND PASSWORD = ?",
         whereArgs: [email, password]);
+
+    var userList = maps.map((element) {
+      return User.fromJson(element);
+    }).toList();
+
+    if (userList.isEmpty) {
+      throw FileSystemEntityType.notFound;
+    }
+
+    return userList.first;
+  }
+
+  static Future<User> findUserById(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.query("USER",
+        columns: ["ID", "NAME", "EMAIL", "PASSWORD"],
+        where: "ID = ?",
+        whereArgs: [id]);
 
     var userList = maps.map((element) {
       return User.fromJson(element);
@@ -174,6 +196,12 @@ class WatchNextDatabase {
     var db = await openDB();
     await db.insert("USER_ITEM",
         {"USER_ID": userId, "ITEM_ID": itemId});
+  }
+
+  static Future<void> removeUserItem(userId, itemId) async {
+    var db = await openDB();
+    await db.delete("USER_ITEM",
+        where:"USER_ID = ? and ITEM_ID = ?", whereArgs: [userId, itemId]);
   }
 
   static Future<Item> findItemById(int id) async {
