@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:sqflite/sqflite.dart';
+import 'package:watch_next/Entities/review.dart';
 import 'package:watch_next/Entities/user.dart';
 import 'package:watch_next/Entities/user_item.dart';
 
@@ -14,6 +15,7 @@ class WatchNextDatabase {
     await db.execute("""DROP TABLE IF EXISTS USER""");
     await db.execute("""DROP TABLE IF EXISTS NOTIFICATION""");
     await db.execute("""DROP TABLE IF EXISTS USER_ITEM""");
+    await db.execute("""DROP TABLE IF EXISTS REVIEW""");
   }
 
   static Future<void> createDB(Database db) async {
@@ -41,6 +43,15 @@ class WatchNextDatabase {
         USER_ID INTEGER,
         ITEM_ID INTEGER,
         PRIMARY KEY(USER_ID, ITEM_ID),
+        FOREIGN KEY(USER_ID) REFERENCES USER(ID),
+        FOREIGN KEY(ITEM_ID) REFERENCES ITEM(ID)
+        );""");
+
+    await db.execute("""CREATE TABLE REVIEW (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        USER_ID INTEGER,
+        ITEM_ID INTEGER,
+        TEXT VARCHAR2,
         FOREIGN KEY(USER_ID) REFERENCES USER(ID),
         FOREIGN KEY(ITEM_ID) REFERENCES ITEM(ID)
         );""");
@@ -85,6 +96,9 @@ class WatchNextDatabase {
     await addUserItem(3, 3);
     await addUserItem(3, 10);
 
+    await addReview(1, 1, "John wick é muito brabo não tem nem como.");
+    await addReview(1, 5, "Pelo amor de deus que obra.");
+    await addReview(1, 4, "Uma delicia de anime");
 
     await addNotification(NotificationApp(1, "Review",
         "Congrats! Your review on the movie John Wick 3 was successfully posted."));
@@ -219,6 +233,28 @@ class WatchNextDatabase {
     }).toList();
 
     return itemList.first;
+  }
+
+  static Future<void> addReview(userId, itemId, review) async {
+    var db = await openDB();
+    await db.insert("REVIEW",
+        {"USER_ID": userId, "ITEM_ID": itemId, "TEXT": review});
+  }
+
+  static Future<List<Review>> findReviewsByUser(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.rawQuery("""SELECT REVIEW.* FROM REVIEW WHERE USER_ID = $id""");
+
+    var reviewList = maps.map((element) {
+      return Review.fromJson(element);
+    }).toList();
+
+    if (reviewList.isEmpty) {
+      throw FileSystemEntityType.notFound;
+    }
+
+    return reviewList;
   }
 
   static Future<void> addNotification(NotificationApp not) async {
