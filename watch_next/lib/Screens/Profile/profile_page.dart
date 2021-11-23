@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/user.dart';
+import 'package:watch_next/Screens/PrivacyPolicy/privacy_policy_screen.dart';
 import 'package:watch_next/Screens/Profile/edit_profile.dart';
 import 'package:watch_next/Screens/Reviews/reviews_screen.dart';
 import 'package:watch_next/Widgets/button_widget.dart';
@@ -75,7 +76,16 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         )),
         const SizedBox(height: 12),
-        Center(child: buildPrivacyButton()),
+        Center(child: ButtonWidget(
+          text: '     Privacy Policy     ',
+          onClicked: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PrivacyPolicyScreen(loggedUser: user)),
+            ).whenComplete(() => setState(() {}));
+          },
+        )),
       ],
     );
   }
@@ -92,10 +102,5 @@ class _ProfilePageState extends State<ProfilePage> {
             style: const TextStyle(color: Colors.grey),
           )
         ],
-      );
-
-  Widget buildPrivacyButton() => ButtonWidget(
-        text: '     Privacy Policy     ',
-        onClicked: () {},
       );
 }
