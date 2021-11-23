@@ -138,7 +138,7 @@ class WatchNextDatabase {
     var db = await openDB();
 
     List<Map> maps = await db.query("USER",
-        columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH"],
+        columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH", "IMAGE_PATH"],
         where: "EMAIL = ? AND PASSWORD = ?",
         whereArgs: [email, password]);
 
@@ -157,7 +157,7 @@ class WatchNextDatabase {
     var db = await openDB();
 
     List<Map> maps = await db.query("USER",
-        columns: ["ID", "NAME", "EMAIL", "PASSWORD"],
+        columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH"],
         where: "ID = ?",
         whereArgs: [id]);
 
@@ -269,7 +269,7 @@ class WatchNextDatabase {
     var db = await openDB();
 
     List<Map> maps =
-        await db.query("USER", columns: ["ID", "NAME", "EMAIL", "PASSWORD"]);
+        await db.query("USER", columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH"]);
 
     var userList = maps.map((element) {
       return User.fromJson(element);

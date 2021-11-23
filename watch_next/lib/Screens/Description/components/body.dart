@@ -75,10 +75,10 @@ class Body extends StatelessWidget {
       ]),
       decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Colors.blue,
+              Colors.black,
               Colors.red,
             ],
           )),
