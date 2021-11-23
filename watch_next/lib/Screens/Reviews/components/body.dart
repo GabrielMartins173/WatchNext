@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/item.dart';
+import 'package:watch_next/Entities/review.dart';
 import 'package:watch_next/Entities/user.dart';
 import 'package:watch_next/Screens/Description/description_screen.dart';
 import 'package:watch_next/database.dart';
@@ -31,6 +32,11 @@ class _Reviews extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
+        ),
         body: PageView(
           children: [
             FutureBuilder<Widget>(
@@ -49,42 +55,49 @@ class _Reviews extends State<Body> {
   }
 
   Future<Widget> getCards() async {
-    List<Item> itemList =
-    await WatchNextDatabase.findItemsByUser(widget.loggedUser.id);
+    List<Review> reviewList =
+        await WatchNextDatabase.findReviewsByUser(widget.loggedUser.id);
 
-    var reviews = itemList
-        .map((item) => Card(
-      key: ValueKey(item),
-      child: ListTile(
-          title: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DescriptionScreen(item: item)),
-                );
-              },
-              child: ClipRRect(child: Row(children: [
-                SizedBox(
-                  child: Image.asset(
-                      'assets/images/' + item.name + '_logo.png'),
-                  width: 100,
-                ),
-                Text(item.name),
-                ElevatedButton(
-                    onPressed: () {
-                      WatchNextDatabase.removeUserItem(
-                          widget.loggedUser.id, item.id);
-                      setState(() {});
-                    },
-                    child: const Text("delete"))
-              ], mainAxisAlignment: MainAxisAlignment.spaceBetween))),
-          leading: const Icon(CupertinoIcons.line_horizontal_3)),
-      color: const Color(0xA41C1C1C),
-      semanticContainer: true,
-      shadowColor: const Color(0xD8F63434),
-      elevation: 15,
-    ))
+    List<Item> itemList = [];
+
+    for (Review review in reviewList) {
+      itemList.add(await WatchNextDatabase.findItemById(review.itemId));
+    }
+
+    var reviews = reviewList
+        .map((review) => Card(
+              key: ValueKey(review),
+              child: ExpansionTile(
+                title: Row(children: [
+                  SizedBox(
+                    child: Image.asset('assets/images/' +
+                        itemList
+                            .firstWhere((item) => item.id == review.itemId)
+                            .name +
+                        '_logo.png'),
+                    width: 100,
+                  ),
+                  Text(itemList
+                      .firstWhere((item) => item.id == review.itemId)
+                      .name)
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceAround),
+                children: [
+                  Text(review.review),
+                  ElevatedButton(
+                      onPressed: () {
+                        WatchNextDatabase.removeReview(
+                            review.userId, review.itemId);
+                        setState(() {});
+                      },
+                      child: const Text("delete"))
+                ],
+              ),
+              color: const Color(0xA41C1C1C),
+              semanticContainer: true,
+              shadowColor: const Color(0xD8F63434),
+              elevation: 15,
+            ))
         .toList();
 
     return ReorderableListView(

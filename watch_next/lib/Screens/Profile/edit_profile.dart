@@ -5,8 +5,9 @@ import 'package:watch_next/Widgets/button_widget.dart';
 import 'package:watch_next/database.dart';
 
 class EditProfilePage extends StatelessWidget {
-  const EditProfilePage({Key? key, required this.loggedUser}) : super(key: key);
+  const EditProfilePage({Key? key, required this.title, required this.loggedUser}) : super(key: key);
 
+  final String title;
   final User loggedUser;
 
   @override
@@ -16,6 +17,11 @@ class EditProfilePage extends StatelessWidget {
     String password = loggedUser.password;
 
     return Scaffold(
+      appBar: AppBar(
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(title),
+      ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
