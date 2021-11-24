@@ -13,6 +13,9 @@ class _FollowersPageState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Text("Followers"),
+        ),
         body: FutureBuilder<Widget>(
             future: getFollowers(),
             builder: (context, snapshot) {

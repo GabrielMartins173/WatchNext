@@ -6,7 +6,6 @@ class FollowersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return const Scaffold(
       body: Body(),
     );

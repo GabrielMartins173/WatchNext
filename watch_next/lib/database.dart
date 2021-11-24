@@ -17,6 +17,7 @@ class WatchNextDatabase {
     await db.execute("""DROP TABLE IF EXISTS USER_ITEM""");
     await db.execute("""DROP TABLE IF EXISTS REVIEW""");
     await db.execute("""DROP TABLE IF EXISTS FOLLOWER""");
+    await db.execute("""DROP TABLE IF EXISTS FOLLOWING""");
   }
 
   static Future<void> createDB(Database db) async {
@@ -63,6 +64,14 @@ class WatchNextDatabase {
         FOLLOWER_ID INTEGER,
         FOREIGN KEY(USER_ID) REFERENCES USER(ID),
         FOREIGN KEY(FOLLOWER_ID) REFERENCES USER(ID)
+        );""");
+
+    await db.execute("""CREATE TABLE FOLLOWING (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        USER_ID INTEGER,
+        FOLLOWING_ID INTEGER,
+        FOREIGN KEY(USER_ID) REFERENCES USER(ID),
+        FOREIGN KEY(FOLLOWING_ID) REFERENCES USER(ID)
         );""");
 
     await populate();
@@ -138,6 +147,12 @@ class WatchNextDatabase {
     await addFollower(5, 7);
     await addFollower(5, 1);
     await addFollower(5, 4);
+
+    await addFollowing(5, 1);
+    await addFollowing(5, 6);
+    await addFollowing(5, 7);
+    await addFollowing(5, 4);
+    await addFollowing(5, 2);
   }
 
   static Future<Database> openDB() async {
@@ -239,8 +254,25 @@ class WatchNextDatabase {
     }).toList();
 
     if (userList.isEmpty) {
-      throw FileSystemEntityType.notFound;
+      // throw FileSystemEntityType.notFound;
     }
+
+    return userList;
+  }
+
+  static Future<List<User>> findFollowing(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.rawQuery(
+        """SELECT USER.* FROM USER JOIN FOLLOWING ON FOLLOWING.FOLLOWING_ID = USER.ID WHERE USER_ID = $id""");
+
+    var userList = maps.map((e) {
+      return User.fromJson(e);
+    }).toList();
+
+    // if (userList.isEmpty) {
+    //   throw FileSystemEntityType.notFound;
+    // }
 
     return userList;
   }
@@ -294,6 +326,12 @@ class WatchNextDatabase {
     return itemList.first;
   }
 
+  static Future<void> addFollowing(userId, followingId) async {
+    var db = await openDB();
+    await db
+        .insert("FOLLOWING", {"USER_ID": userId, "FOLLOWING_ID": followingId});
+  }
+
   static Future<void> addFollower(userId, followerId) async {
     var db = await openDB();
     await db.insert("FOLLOWER", {"USER_ID": userId, "FOLLOWER_ID": followerId});
@@ -309,6 +347,13 @@ class WatchNextDatabase {
     var db = await openDB();
     await db.delete("REVIEW",
         where: "USER_ID = ? and ITEM_ID = ?", whereArgs: [userId, itemId]);
+  }
+
+  static Future<void> removeFollowing(userId, followingId) async {
+    var db = await openDB();
+    await db.delete("FOLLOWING",
+        where: "USER_ID = ? and FOLLOWING_ID = ?",
+        whereArgs: [userId, followingId]);
   }
 
   static Future<List<Review>> findReviewsByUser(int id) async {

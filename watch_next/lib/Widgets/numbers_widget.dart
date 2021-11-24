@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:watch_next/Screens/Followers/followers_screen.dart';
+import 'package:watch_next/Screens/Following/following_screen.dart';
+import 'package:watch_next/Screens/Home/home_screen.dart';
+import 'package:watch_next/Screens/Reviews/reviews_screen.dart';
 
 class NumbersWidget extends StatelessWidget {
   const NumbersWidget({Key? key}) : super(key: key);
@@ -8,9 +11,9 @@ class NumbersWidget extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          buildButton(context, '5', 'Followers'),
+          buildButton(context, '5', 'Followers', FollowersScreen()),
           buildDivider(),
-          buildButton(context, '6', 'Following'),
+          buildButton(context, '6', 'Following', FollowingScreen()),
           buildDivider(),
           buildButton(context, '50', 'Reviews Published'),
         ],
@@ -20,12 +23,15 @@ class NumbersWidget extends StatelessWidget {
         child: VerticalDivider(),
       );
 
-  Widget buildButton(BuildContext context, String value, String text) =>
+  Widget buildButton(BuildContext context, String value, String text,
+          [Widget? nextScreen]) =>
       MaterialButton(
         padding: const EdgeInsets.symmetric(vertical: 4),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => FollowersScreen()));
+          if (nextScreen != null) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => nextScreen));
+          }
         },
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Column(
