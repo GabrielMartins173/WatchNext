@@ -16,6 +16,7 @@ class WatchNextDatabase {
     await db.execute("""DROP TABLE IF EXISTS NOTIFICATION""");
     await db.execute("""DROP TABLE IF EXISTS USER_ITEM""");
     await db.execute("""DROP TABLE IF EXISTS REVIEW""");
+    await db.execute("""DROP TABLE IF EXISTS FOLLOWER""");
   }
 
   static Future<void> createDB(Database db) async {
@@ -56,6 +57,14 @@ class WatchNextDatabase {
         FOREIGN KEY(ITEM_ID) REFERENCES ITEM(ID)
         );""");
 
+    await db.execute("""CREATE TABLE FOLLOWER (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        USER_ID INTEGER,
+        FOLLOWER_ID INTEGER,
+        FOREIGN KEY(USER_ID) REFERENCES USER(ID),
+        FOREIGN KEY(FOLLOWER_ID) REFERENCES USER(ID)
+        );""");
+
     await populate();
   }
 
@@ -66,22 +75,41 @@ class WatchNextDatabase {
   }
 
   static Future<void> populate() async {
-    await addUser(User(1, "Alan", "saxobeat@usgu.com", "1234", "assets/images/Alan.jpg"));
-    await addUser(User(2, "Gabriel", "midoriya@usgu.com", "password", "assets/images/Gabriel.jpg"));
-    await addUser(User(3, "Lucas", "pikachu@usgu.com", "senha", "assets/images/Lucas.jpg"));
-    await addUser(User(4, "Leo", "doge@usgu.com", "alice", "assets/images/doge.jpg"));
-    await addUser(User(5, "user", "user", "123", "assets/images/test_logo.png"));
+    await addUser(
+        User(1, "Alan", "saxobeat@usgu.com", "1234", "assets/images/Alan.jpg"));
+    await addUser(User(2, "Gabriel", "midoriya@usgu.com", "password",
+        "assets/images/Gabriel.jpg"));
+    await addUser(User(
+        3, "Lucas", "pikachu@usgu.com", "senha", "assets/images/Lucas.jpg"));
+    await addUser(
+        User(4, "Leo", "doge@usgu.com", "alice", "assets/images/doge.jpg"));
+    await addUser(
+        User(5, "user", "user", "123", "assets/images/test_logo.png"));
+    await addUser(
+        User(6, "user", "user2", "1234", "assets/images/test_logo.png"));
+    await addUser(
+        User(7, "user", "user3", "12345", "assets/images/test_logo.png"));
 
-    await addItem(Item(1, "John Wick", "John Wick é um lendário assassino de aluguel aposentado, lidando com o luto após perder o grande amor de sua vida. Quando um gângster invade sua casa, mata seu cachorro e rouba seu carro, ele é forçado a voltar à ativa e inicia sua vingança."));
-    await addItem(Item(2, "Seinfeld", "O comediante Jerry Seinfeld, interpretado por ele mesmo, passa pelas mais triviais aventuras cotidianas, como tomar café em uma lanchonete ou alugar filme em uma locadora, ao lado da feminista Elaine (Julia Louis-Dreyfus), do neurótico George (Jason Alexander) e do vizinho folgado Kramer (George Costanza)."));
-    await addItem(Item(3, "Naruto", "Naruto é um jovem órfão habitante da Vila da Folha que sonha se tornar o quinto Hokage, o maior guerreiro e governante da vila. ... Agora Naruto vai contar com a ajuda dos colegas Sakura e Sasuke e do professor dos três, Kakashi Hatake, para perseguir seu sonho e deter os ninjas que planejam fazer mal á sua cidade."));
-    await addItem(Item(4, "Takt Op", "Atraídos para a Terra pela música dos humanos, estranhos monstros conhecidos como D2 agora assolam a Terra e a humanidade. Para impedir seu avanço, a música é proibida em todo o mundo. Entretanto, surgem aqueles dispostos a combater os monstros: Musicarts, garotas que manejam a música como arma, usando as grandes óperas e partituras da história a seu favor para derrotar os D2s, e os Conductors, que as orientam e guiam. Em 2047, um Conductor chamado Takt e uma Musicart chamada Destiny viajam pelos EUA, tentando reviver a música e aniquilar os D2 restantes."));
-    await addItem(Item(5, "Arcane", "A trama gira em torno de uma tecnologia mágica conhecida com hextec que dá a qualquer pessoa a habilidade de controlar energia mística e essa ferramenta acaba causando um desequilíbrio entre os reinos."));
-    await addItem(Item(6, "Spider Man", "Peter Parker está em uma viagem de duas semanas pela Europa, ao lado de seus amigos de colégio, quando é surpreendido pela visita de Nick Fury. Convocado para mais uma missão heroica, ele precisa enfrentar vários vilões que surgem em cidades-símbolo do continente, como Londres, Paris e Veneza, e também a aparição do enigmático Mysterio."));
-    await addItem(Item(7, "Steven Universe", "A série segue as aventuras de Steven, um garoto que herdou uma poderosa missão e, junto de seus amigos Garnet, Amethyst e Pearl, precisarão proteger o mundo de certas ameaças. Enquanto Steven tenta descobrir como usar sua herança, ele passa seus dias na Beach City se divertindo com seus amigos."));
-    await addItem(Item(8, "Red Notice", "Um alerta vermelho da Interpol é emitido e o agente do FBI John Hartley assume o caso. Durante sua busca, ele se vê diante de um assalto ousado e é forçado a se aliar ao maior ladrão de arte da história, Nolan Booth, para capturar a ladra de arte mais procurada do mundo atualmente, Sarah Black."));
-    await addItem(Item(9, "Avatar", "Aang é um menino de apenas 12 anos que descobre ser o Avatar, grande mestre responsável por garantir o equilíbrio entre os quatro elementos - água, terra, fogo e ar - e suas respectivas nações representantes, mantendo o planeta em segurança."));
-    await addItem(Item(10, "Invincible", "Baseada na série homônima de quadrinhos criada por Robert Kirkman (The Walking Dead), Invincible acompanha Mark Grayson, um adolescente que tenta levar uma vida comum, exceto por um pequeno detalhe: ele é filho do super-herói mais poderoso da Terra."));
+    await addItem(Item(1, "John Wick",
+        "John Wick é um lendário assassino de aluguel aposentado, lidando com o luto após perder o grande amor de sua vida. Quando um gângster invade sua casa, mata seu cachorro e rouba seu carro, ele é forçado a voltar à ativa e inicia sua vingança."));
+    await addItem(Item(2, "Seinfeld",
+        "O comediante Jerry Seinfeld, interpretado por ele mesmo, passa pelas mais triviais aventuras cotidianas, como tomar café em uma lanchonete ou alugar filme em uma locadora, ao lado da feminista Elaine (Julia Louis-Dreyfus), do neurótico George (Jason Alexander) e do vizinho folgado Kramer (George Costanza)."));
+    await addItem(Item(3, "Naruto",
+        "Naruto é um jovem órfão habitante da Vila da Folha que sonha se tornar o quinto Hokage, o maior guerreiro e governante da vila. ... Agora Naruto vai contar com a ajuda dos colegas Sakura e Sasuke e do professor dos três, Kakashi Hatake, para perseguir seu sonho e deter os ninjas que planejam fazer mal á sua cidade."));
+    await addItem(Item(4, "Takt Op",
+        "Atraídos para a Terra pela música dos humanos, estranhos monstros conhecidos como D2 agora assolam a Terra e a humanidade. Para impedir seu avanço, a música é proibida em todo o mundo. Entretanto, surgem aqueles dispostos a combater os monstros: Musicarts, garotas que manejam a música como arma, usando as grandes óperas e partituras da história a seu favor para derrotar os D2s, e os Conductors, que as orientam e guiam. Em 2047, um Conductor chamado Takt e uma Musicart chamada Destiny viajam pelos EUA, tentando reviver a música e aniquilar os D2 restantes."));
+    await addItem(Item(5, "Arcane",
+        "A trama gira em torno de uma tecnologia mágica conhecida com hextec que dá a qualquer pessoa a habilidade de controlar energia mística e essa ferramenta acaba causando um desequilíbrio entre os reinos."));
+    await addItem(Item(6, "Spider Man",
+        "Peter Parker está em uma viagem de duas semanas pela Europa, ao lado de seus amigos de colégio, quando é surpreendido pela visita de Nick Fury. Convocado para mais uma missão heroica, ele precisa enfrentar vários vilões que surgem em cidades-símbolo do continente, como Londres, Paris e Veneza, e também a aparição do enigmático Mysterio."));
+    await addItem(Item(7, "Steven Universe",
+        "A série segue as aventuras de Steven, um garoto que herdou uma poderosa missão e, junto de seus amigos Garnet, Amethyst e Pearl, precisarão proteger o mundo de certas ameaças. Enquanto Steven tenta descobrir como usar sua herança, ele passa seus dias na Beach City se divertindo com seus amigos."));
+    await addItem(Item(8, "Red Notice",
+        "Um alerta vermelho da Interpol é emitido e o agente do FBI John Hartley assume o caso. Durante sua busca, ele se vê diante de um assalto ousado e é forçado a se aliar ao maior ladrão de arte da história, Nolan Booth, para capturar a ladra de arte mais procurada do mundo atualmente, Sarah Black."));
+    await addItem(Item(9, "Avatar",
+        "Aang é um menino de apenas 12 anos que descobre ser o Avatar, grande mestre responsável por garantir o equilíbrio entre os quatro elementos - água, terra, fogo e ar - e suas respectivas nações representantes, mantendo o planeta em segurança."));
+    await addItem(Item(10, "Invincible",
+        "Baseada na série homônima de quadrinhos criada por Robert Kirkman (The Walking Dead), Invincible acompanha Mark Grayson, um adolescente que tenta levar uma vida comum, exceto por um pequeno detalhe: ele é filho do super-herói mais poderoso da Terra."));
 
     await addUserItem(1, 1);
     await addUserItem(1, 5);
@@ -105,6 +133,11 @@ class WatchNextDatabase {
     await addNotification(NotificationApp(2, "Review Friend", "foo"));
     await addNotification(
         NotificationApp(3, "Follower", "Hi Alan. You have a new Follower !"));
+
+    await addFollower(5, 6);
+    await addFollower(5, 7);
+    await addFollower(5, 1);
+    await addFollower(5, 4);
   }
 
   static Future<Database> openDB() async {
@@ -141,10 +174,12 @@ class WatchNextDatabase {
     });
   }
 
-  static Future<void> updateUser(User userToUpdate, name, email, password) async {
+  static Future<void> updateUser(
+      User userToUpdate, name, email, password) async {
     var db = await openDB();
     var userToUpdateId = userToUpdate.id;
-    await db.rawUpdate("UPDATE USER SET NAME = '$name', EMAIL = '$email', PASSWORD = '$password' WHERE ID = '$userToUpdateId'");
+    await db.rawUpdate(
+        "UPDATE USER SET NAME = '$name', EMAIL = '$email', PASSWORD = '$password' WHERE ID = '$userToUpdateId'");
   }
 
   static Future<User> findUserByEmailAndPassword(
@@ -152,7 +187,14 @@ class WatchNextDatabase {
     var db = await openDB();
 
     List<Map> maps = await db.query("USER",
-        columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH", "IMAGE_PATH"],
+        columns: [
+          "ID",
+          "NAME",
+          "EMAIL",
+          "PASSWORD",
+          "IMAGE_PATH",
+          "IMAGE_PATH"
+        ],
         where: "EMAIL = ? AND PASSWORD = ?",
         whereArgs: [email, password]);
 
@@ -186,17 +228,35 @@ class WatchNextDatabase {
     return userList.first;
   }
 
+  static Future<List<User>> findFollowers(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.rawQuery(
+        """SELECT USER.* FROM USER JOIN FOLLOWER ON FOLLOWER.FOLLOWER_ID = USER.ID WHERE USER_ID = $id""");
+
+    var userList = maps.map((e) {
+      return User.fromJson(e);
+    }).toList();
+
+    if (userList.isEmpty) {
+      throw FileSystemEntityType.notFound;
+    }
+
+    return userList;
+  }
+
   static Future<List<Item>> findItemsByUser(int id) async {
     var db = await openDB();
 
-    List<Map> maps = await db.rawQuery("""SELECT ITEM.* FROM ITEM JOIN USER_ITEM ON USER_ITEM.ITEM_ID = ITEM.ID WHERE USER_ID = $id""");
+    List<Map> maps = await db.rawQuery(
+        """SELECT ITEM.* FROM ITEM JOIN USER_ITEM ON USER_ITEM.ITEM_ID = ITEM.ID WHERE USER_ID = $id""");
 
     var itemList = maps.map((element) {
       return Item.fromJson(element);
     }).toList();
 
     if (itemList.isEmpty) {
-      throw FileSystemEntityType.notFound;
+      //throw FileSystemEntityType.notFound;
     }
 
     return itemList;
@@ -210,14 +270,13 @@ class WatchNextDatabase {
 
   static Future<void> addUserItem(userId, itemId) async {
     var db = await openDB();
-    await db.insert("USER_ITEM",
-        {"USER_ID": userId, "ITEM_ID": itemId});
+    await db.insert("USER_ITEM", {"USER_ID": userId, "ITEM_ID": itemId});
   }
 
   static Future<void> removeUserItem(userId, itemId) async {
     var db = await openDB();
     await db.delete("USER_ITEM",
-        where:"USER_ID = ? and ITEM_ID = ?", whereArgs: [userId, itemId]);
+        where: "USER_ID = ? and ITEM_ID = ?", whereArgs: [userId, itemId]);
   }
 
   static Future<Item> findItemById(int id) async {
@@ -235,22 +294,28 @@ class WatchNextDatabase {
     return itemList.first;
   }
 
+  static Future<void> addFollower(userId, followerId) async {
+    var db = await openDB();
+    await db.insert("FOLLOWER", {"USER_ID": userId, "FOLLOWER_ID": followerId});
+  }
+
   static Future<void> addReview(userId, itemId, review) async {
     var db = await openDB();
-    await db.insert("REVIEW",
-        {"USER_ID": userId, "ITEM_ID": itemId, "TEXT": review});
+    await db.insert(
+        "REVIEW", {"USER_ID": userId, "ITEM_ID": itemId, "TEXT": review});
   }
 
   static Future<void> removeReview(userId, itemId) async {
     var db = await openDB();
     await db.delete("REVIEW",
-        where:"USER_ID = ? and ITEM_ID = ?", whereArgs: [userId, itemId]);
+        where: "USER_ID = ? and ITEM_ID = ?", whereArgs: [userId, itemId]);
   }
 
   static Future<List<Review>> findReviewsByUser(int id) async {
     var db = await openDB();
 
-    List<Map> maps = await db.rawQuery("""SELECT REVIEW.* FROM REVIEW WHERE USER_ID = $id""");
+    List<Map> maps = await db
+        .rawQuery("""SELECT REVIEW.* FROM REVIEW WHERE USER_ID = $id""");
 
     var reviewList = maps.map((element) {
       return Review.fromJson(element);
@@ -310,8 +375,8 @@ class WatchNextDatabase {
   static Future<List> getAllUsers() async {
     var db = await openDB();
 
-    List<Map> maps =
-        await db.query("USER", columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH"]);
+    List<Map> maps = await db.query("USER",
+        columns: ["ID", "NAME", "EMAIL", "PASSWORD", "IMAGE_PATH"]);
 
     var userList = maps.map((element) {
       return User.fromJson(element);
@@ -324,6 +389,5 @@ class WatchNextDatabase {
     var db = await openDB();
 
     await db.delete("ITEM", where: "ID = ?", whereArgs: [id]);
-
   }
 }

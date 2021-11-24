@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:watch_next/Screens/Followers/followers_screen.dart';
 
 class NumbersWidget extends StatelessWidget {
   const NumbersWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: <Widget>[
-      buildButton(context, '5', 'Followers'),
-      buildDivider(),
-      buildButton(context, '6', 'Following'),
-      buildDivider(),
-      buildButton(context, '50', 'Reviews Published'),
-    ],
-  );
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          buildButton(context, '5', 'Followers'),
+          buildDivider(),
+          buildButton(context, '6', 'Following'),
+          buildDivider(),
+          buildButton(context, '50', 'Reviews Published'),
+        ],
+      );
   Widget buildDivider() => const SizedBox(
-    height: 24,
-    child: VerticalDivider(),
-  );
+        height: 24,
+        child: VerticalDivider(),
+      );
 
   Widget buildButton(BuildContext context, String value, String text) =>
       MaterialButton(
         padding: const EdgeInsets.symmetric(vertical: 4),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => FollowersScreen()));
+        },
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         child: Column(
           mainAxisSize: MainAxisSize.min,

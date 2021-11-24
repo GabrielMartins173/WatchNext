@@ -13,6 +13,7 @@ class Body extends StatelessWidget {
         body: PageView(
       children: [
         ListView.builder(
+            physics: const BouncingScrollPhysics(),
             itemCount: listNoti.length,
             itemBuilder: (BuildContext context, int index) {
               return Container(

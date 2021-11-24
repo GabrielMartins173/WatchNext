@@ -6,10 +6,10 @@ import 'package:watch_next/Screens/Login/login_service.dart';
 import 'package:watch_next/Screens/SignUp/components/background.dart';
 import 'package:watch_next/Screens/SignUp/components/or_divider.dart';
 import 'package:watch_next/Screens/SignUp/components/social_icon.dart';
-import 'package:watch_next/components/already_have_an_account_acheck.dart';
-import 'package:watch_next/components/rounded_button.dart';
-import 'package:watch_next/components/rounded_input_field.dart';
-import 'package:watch_next/components/rounded_password_field.dart';
+import 'package:watch_next/Components/already_have_an_account_acheck.dart';
+import 'package:watch_next/Components/rounded_button.dart';
+import 'package:watch_next/Components/rounded_input_field.dart';
+import 'package:watch_next/Components/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
@@ -55,7 +55,8 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "SIGNUP",
               press: () {
-                LoginService.signUp(name, email, password, "assets/images/test_logo.png");
+                LoginService.signUp(
+                    name, email, password, "assets/images/test_logo.png");
                 Navigator.push(
                   context,
                   MaterialPageRoute(
