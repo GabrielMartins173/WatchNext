@@ -93,11 +93,11 @@ class WatchNextDatabase {
     await addUser(
         User(4, "Leo", "doge@usgu.com", "alice", "assets/images/doge.jpg"));
     await addUser(
-        User(5, "user", "user", "123", "assets/images/test_logo.png"));
+        User(5, "Carlos", "user", "123", "assets/images/carlos.jpg"));
     await addUser(
-        User(6, "user", "user2", "1234", "assets/images/test_logo.png"));
+        User(6, "Smudge", "user2", "1234", "assets/images/smudge.jpg"));
     await addUser(
-        User(7, "user", "user3", "12345", "assets/images/test_logo.png"));
+        User(7, "Terry", "user3", "12345", "assets/images/terry.jpg"));
 
     await addItem(Item(1, "John Wick",
         "John Wick é um lendário assassino de aluguel aposentado, lidando com o luto após perder o grande amor de sua vida. Quando um gângster invade sua casa, mata seu cachorro e rouba seu carro, ele é forçado a voltar à ativa e inicia sua vingança."));
@@ -143,16 +143,15 @@ class WatchNextDatabase {
     await addNotification(
         NotificationApp(3, "Follower", "Hi Alan. You have a new Follower !"));
 
-    await addFollower(5, 6);
-    await addFollower(5, 7);
-    await addFollower(5, 1);
-    await addFollower(5, 4);
+    await addFollower(1, 2);
+    await addFollower(1, 3);
+    await addFollower(1, 4);
 
-    await addFollowing(5, 1);
-    await addFollowing(5, 6);
-    await addFollowing(5, 7);
-    await addFollowing(5, 4);
-    await addFollowing(5, 2);
+    await addFollowing(1, 2);
+    await addFollowing(1, 3);
+    await addFollowing(1, 4);
+    await addFollowing(1, 5);
+    await addFollowing(1, 6);
   }
 
   static Future<Database> openDB() async {
@@ -260,6 +259,23 @@ class WatchNextDatabase {
     return userList;
   }
 
+  static Future<String> countFollowers(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.rawQuery(
+        """SELECT USER.* FROM USER JOIN FOLLOWER ON FOLLOWER.FOLLOWER_ID = USER.ID WHERE USER_ID = $id""");
+
+    var userList = maps.map((e) {
+      return User.fromJson(e);
+    }).toList();
+
+    if (userList.isEmpty) {
+      // throw FileSystemEntityType.notFound;
+    }
+
+    return userList.length.toString();
+  }
+
   static Future<List<User>> findFollowing(int id) async {
     var db = await openDB();
 
@@ -275,6 +291,23 @@ class WatchNextDatabase {
     // }
 
     return userList;
+  }
+
+  static Future<String> countFollowing(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db.rawQuery(
+        """SELECT USER.* FROM USER JOIN FOLLOWING ON FOLLOWING.FOLLOWING_ID = USER.ID WHERE USER_ID = $id""");
+
+    var userList = maps.map((e) {
+      return User.fromJson(e);
+    }).toList();
+
+    // if (userList.isEmpty) {
+    //   throw FileSystemEntityType.notFound;
+    // }
+
+    return userList.length.toString();
   }
 
   static Future<List<Item>> findItemsByUser(int id) async {
@@ -371,6 +404,23 @@ class WatchNextDatabase {
     }
 
     return reviewList;
+  }
+
+  static Future<String> countReviewsByUser(int id) async {
+    var db = await openDB();
+
+    List<Map> maps = await db
+        .rawQuery("""SELECT REVIEW.* FROM REVIEW WHERE USER_ID = $id""");
+
+    var reviewList = maps.map((element) {
+      return Review.fromJson(element);
+    }).toList();
+
+    if (reviewList.isEmpty) {
+      throw FileSystemEntityType.notFound;
+    }
+
+    return reviewList.length.toString();
   }
 
   static Future<void> addNotification(NotificationApp not) async {

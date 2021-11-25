@@ -27,7 +27,7 @@ class EditProfilePage extends StatelessWidget {
         children: [
           const SizedBox(height: 24),
           CircleAvatar(
-            backgroundColor: Colors.blue,
+            backgroundColor: const Color(0xCB000000),
             minRadius: 80.0,
             child: CircleAvatar(
               radius: 70.0,

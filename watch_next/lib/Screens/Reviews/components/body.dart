@@ -89,6 +89,8 @@ class _Reviews extends State<Body> {
                             review.userId, review.itemId);
                         setState(() {});
                       },
+                      style: ElevatedButton.styleFrom(
+                          primary: const Color(0xC4DE0000)),
                       child: const Text("delete"))
                 ],
               ),

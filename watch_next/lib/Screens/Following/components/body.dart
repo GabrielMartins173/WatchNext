@@ -4,7 +4,9 @@ import 'package:watch_next/Screens/Following/following_screen.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key});
+  const Body({Key? key, required this.loggedUser}) : super(key: key);
+
+  final User loggedUser;
 
   @override
   _FollowingPageState createState() => _FollowingPageState();
@@ -18,7 +20,7 @@ class _FollowingPageState extends State<Body> {
           title: Text("Following"),
         ),
         body: FutureBuilder<Widget>(
-            future: getFollowing(),
+            future: getFollowing(widget.loggedUser),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data!;
@@ -31,8 +33,8 @@ class _FollowingPageState extends State<Body> {
   }
 }
 
-Future<Widget> getFollowing() async {
-  List<User> users = await WatchNextDatabase.findFollowing(5);
+Future<Widget> getFollowing(User loggedUser) async {
+  List<User> users = await WatchNextDatabase.findFollowing(loggedUser.id);
 
   return Scaffold(
     body: PageView(children: [
@@ -67,7 +69,7 @@ Future<Widget> getFollowing() async {
                         context,
                         MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                FollowingScreen()));
+                                FollowingScreen(loggedUser: loggedUser)));
                   },
                 )
               ]),

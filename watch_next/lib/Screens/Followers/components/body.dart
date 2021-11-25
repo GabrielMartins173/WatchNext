@@ -3,7 +3,9 @@ import 'package:watch_next/Entities/user.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key});
+  const Body({Key? key, required this.loggedUser}) : super(key: key);
+
+  final User loggedUser;
 
   @override
   _FollowersPageState createState() => _FollowersPageState();
@@ -17,7 +19,7 @@ class _FollowersPageState extends State<Body> {
           title: Text("Followers"),
         ),
         body: FutureBuilder<Widget>(
-            future: getFollowers(),
+            future: getFollowers(widget.loggedUser),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return snapshot.data!;
@@ -30,8 +32,8 @@ class _FollowersPageState extends State<Body> {
   }
 }
 
-Future<Widget> getFollowers() async {
-  List<User> users = await WatchNextDatabase.findFollowers(5);
+Future<Widget> getFollowers(User loggedUser) async {
+  List<User> users = await WatchNextDatabase.findFollowers(loggedUser.id);
   return Scaffold(
     body: PageView(children: [
       ListView.builder(
@@ -40,15 +42,13 @@ Future<Widget> getFollowers() async {
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
               onTap: () => {},
-              child: Container(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 20.0,
-                    backgroundImage: AssetImage(users[index].imagePath),
-                  ),
-                  title: Center(
-                    child: Text(users[index].name),
-                  ),
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 20.0,
+                  backgroundImage: AssetImage(users[index].imagePath),
+                ),
+                title: Center(
+                  child: Text(users[index].name),
                 ),
               ),
             );

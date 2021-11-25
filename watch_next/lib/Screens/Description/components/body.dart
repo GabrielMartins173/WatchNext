@@ -52,6 +52,8 @@ class Body extends StatelessWidget {
                   WatchNextDatabase.addUserItem(loggedUser.id, item.id);
                   Navigator.of(context).pop();
                 },
+                style: ElevatedButton.styleFrom(
+                    primary: const Color(0xC4DE0000)),
                 child: const Text("Add to Watchlist")),
             ElevatedButton(
                 onPressed: () {
@@ -62,6 +64,8 @@ class Body extends StatelessWidget {
                             CreateReviewScreen(loggedUserId : loggedUser.id, itemId: item.id)),
                   );
                 },
+                style: ElevatedButton.styleFrom(
+                    primary: const Color(0xC4DE0000)),
                 child: const Text("Write a review")),
             Container(
               child: Image(
@@ -84,12 +88,13 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
               ),
               decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
                   gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFF00309A),
-                  Color(0xFF000E28),
+                  Color(0xFF490101),
+                  Color(0xFFA10214),
                 ],
               )),
               width: double.infinity,

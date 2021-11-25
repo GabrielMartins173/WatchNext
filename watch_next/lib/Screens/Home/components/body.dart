@@ -111,11 +111,7 @@ class _MyHomePageState extends State<Body> {
         ],
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -126,7 +122,7 @@ class _MyHomePageState extends State<Body> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile')
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Colors.red,
         unselectedItemColor: Colors.grey,
         onTap: onTapped,
       ),
@@ -171,6 +167,8 @@ class _MyHomePageState extends State<Body> {
                         _counter++;
                       });
                     },
+                    style: ElevatedButton.styleFrom(
+                        primary: const Color(0xC4DE0000)),
                     child: const Text("Add"))
               ]),
               color: const Color(0xA41C1C1C),

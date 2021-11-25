@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         const SizedBox(height: 24),
         CircleAvatar(
-          backgroundColor: Colors.blue,
+          backgroundColor: const Color(0xCB000000),
           minRadius: 80.0,
           child: CircleAvatar(
               radius: 70.0,
@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
         const SizedBox(height: 24),
         buildName(user),
         const SizedBox(height: 24),
-        const NumbersWidget(),
+        NumbersWidget(loggedUser: widget.loggedUser),
         const SizedBox(height: 36),
         Center(
             child: ButtonWidget(
