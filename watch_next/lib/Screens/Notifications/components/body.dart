@@ -16,10 +16,10 @@ class Body extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             itemCount: listNoti.length,
             itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 50,
-                color: const Color.fromRGBO(15, 27, 43, 0),
-                child: Center(
+              return Card(
+                margin: const EdgeInsets.all(10),
+                color: const Color(0xC4DE0000),
+                child: Center(heightFactor: 2,
                   child: Text(listNoti[index].message),
                 ),
               );
