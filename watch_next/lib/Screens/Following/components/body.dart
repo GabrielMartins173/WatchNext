@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watch_next/Entities/user.dart';
 import 'package:watch_next/Screens/Following/following_screen.dart';
+import 'package:watch_next/Screens/FriendWatchlist/friend_watchlist_screen.dart';
 import 'package:watch_next/database.dart';
 
 class Body extends StatefulWidget {
@@ -53,6 +54,15 @@ Future<Widget> getFollowing(User loggedUser) async {
                     ),
                     title: Center(
                       child: Text(users[index].name),
+                    ),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return FriendWatchlistScreen(
+                              loggedUser: users[index]);
+                        },
+                      ),
                     ),
                   ),
                 ),

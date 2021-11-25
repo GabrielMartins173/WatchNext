@@ -31,6 +31,11 @@ class _WatchList extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text(widget.title),
+        ),
         body: PageView(
       children: [
         FutureBuilder<Widget>(
@@ -72,14 +77,10 @@ class _WatchList extends State<Body> {
                     ),
                     Text(item.name),
                     ElevatedButton(
-                        onPressed: () {
-                          WatchNextDatabase.removeUserItem(
-                              widget.loggedUser.id, item.id);
-                          setState(() {});
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                             primary: const Color(0xC4DE0000)),
-                        child: const Text("Delete"))
+                        child: const Text("Like"))
                   ], mainAxisAlignment: MainAxisAlignment.spaceBetween))),
                   leading: const Icon(CupertinoIcons.line_horizontal_3)),
               color: const Color(0xA41C1C1C),
