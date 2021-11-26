@@ -54,7 +54,7 @@ class Body extends StatelessWidget {
             RoundedButton(
               text: "LOGIN",
               press: () async {
-                await WatchNextDatabase.recreateDB();
+                //await WatchNextDatabase.recreateDB();
                 if (await LoginService.signIn(email, password)) {
                   var user = await WatchNextDatabase.findUserByEmailAndPassword(
                       email, password);
