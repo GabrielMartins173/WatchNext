@@ -74,7 +74,7 @@ Future<Widget> getFollowing(User loggedUser) async {
                   ),
                   label: const Text('Unfollow'),
                   onPressed: () {
-                    WatchNextDatabase.removeFollowing(5, users[index].id);
+                    WatchNextDatabase.removeFollowing(loggedUser.id, users[index].id);
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

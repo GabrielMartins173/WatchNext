@@ -136,6 +136,9 @@ class WatchNextDatabase {
     await addReview(1, 1, "John wick é muito brabo não tem nem como.");
     await addReview(1, 5, "Pelo amor de deus que obra.");
     await addReview(1, 4, "Uma delicia de anime");
+    await addReview(2, 5, "Quero logo a season 2 bom demais!!");
+    await addReview(2, 3, "O naruto pode ser um pouco duro as vezes .... ");
+    await addReview(2, 4, "Teach me how to play a piano please !!!!!");
 
     await addNotification(NotificationApp(1, "Review",
         "Congrats! Your review on the movie John Wick 3 was successfully posted."));
@@ -147,11 +150,20 @@ class WatchNextDatabase {
     await addFollower(1, 3);
     await addFollower(1, 4);
 
+    await addFollower(2, 1);
+    await addFollower(2, 3);
+    await addFollower(2, 4);
+    await addFollower(2, 5);
+    await addFollower(2, 6);
+    await addFollower(2, 7);
+
     await addFollowing(1, 2);
     await addFollowing(1, 3);
     await addFollowing(1, 4);
     await addFollowing(1, 5);
     await addFollowing(1, 6);
+    await addFollowing(2, 1);
+    await addFollowing(2, 3);
   }
 
   static Future<Database> openDB() async {
